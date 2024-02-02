@@ -3,6 +3,8 @@ package com.Jorge.Aneury.practica2.controladores;
 import com.Jorge.Aneury.practica2.servicios.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -13,5 +15,15 @@ public class UsuarioController {
     @Autowired
     public UsuarioController(UsuarioService usuarioService) {
         this.usuarioService = usuarioService;
+    }
+
+    @GetMapping("/listar-usuario")
+    public String listarUsuarios() {
+        return "/listar-usuario";
+    }
+
+    @GetMapping("/modificar-usuario/{userName}")
+    public String modificarUsuario( @PathVariable("userName") String userName) {
+        return "/mod-usuario";
     }
 }
