@@ -6,6 +6,7 @@ import com.Jorge.Aneury.practica2.repositorios.RolRepository;
 import com.Jorge.Aneury.practica2.repositorios.UsuarioRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -22,6 +23,15 @@ public class UsuarioService {
 
     public List<Usuario> getUsuarios() {
         return usuarioRepository.findAllByActivo(true);
+    }
+
+    public List<Usuario> getUsuariosPaginados(int pag,int numporPagina){
+        PageRequest paginaRequest = PageRequest.of(pag, numporPagina);
+        return usuarioRepository.findAllByActivo(paginaRequest,true);
+    }
+
+    public long obtenerCantidadUsuariosActivos(int cantidadporPagina) {
+        return usuarioRepository.countAllByActivo(true)/cantidadporPagina;
     }
 
     public Usuario getUsuarioByUsername(String userName) {

@@ -37,6 +37,17 @@
         </#if>
         </tbody>
     </table>
+
+    <div>
+        <#if pag <= cantpag>
+            <a href="/usuario/listar-usuario/${pag + 1}" class="btn btn-primary">Siguiente</a>
+        </#if>
+
+        <#if pag!=1>
+            <a href="/usuario/listar-usuario/${pag - 1}" class="btn btn-primary">Anterior</a>
+        </#if>
+    </div>
+
 </div>
 
 <!-- Modal Nuevo Usuario -->

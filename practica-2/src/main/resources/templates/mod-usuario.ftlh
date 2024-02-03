@@ -31,7 +31,7 @@
             </select>
         </div>
         <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-        <a href="/usuario/listar-usuario"> <button type="button" class="btn btn-secondary">Cancelar</button></a>
+        <a href="/usuario/listar-usuario/1"> <button type="button" class="btn btn-secondary">Cancelar</button></a>
     </form>
 </div>
 
