@@ -30,7 +30,7 @@
                     <td>${u.roles[0].role}</td>
                     <td>
                         <a href="/usuario/modificar-usuario/${u.userName}"><button class="btn btn-primary btn-sm">Modificar</button></a>
-                        <a href="/usuario/eliminar-usuario/${u.userName}"><button class="btn btn-danger btn-sm">Eliminar</button>
+                        <a href="/usuario/eliminar-usuario/${u.userName}"><button class="btn btn-danger btn-sm">Eliminar</button></a>
                     </td>
                 </tr>
             </#list>
