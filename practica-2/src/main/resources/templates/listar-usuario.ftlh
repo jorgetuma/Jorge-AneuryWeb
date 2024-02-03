@@ -22,15 +22,19 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>
-                <a href="/usuario/modificar-usuario/1"><button class="btn btn-primary btn-sm">Modificar</button></a>
-                <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#eliminarUsuarioModal">Eliminar</button>
-            </td>
-        </tr>
+        <#if size!=0>
+            <#list usuarios as u>
+                <tr>
+                    <td>${u.userName}</td>
+                    <td>${u.nombre}</td>
+                    <td>${u.roles[0].role}</td>
+                    <td>
+                        <a href="/usuario/modificar-usuario/${u.userName}"><button class="btn btn-primary btn-sm">Modificar</button></a>
+                        <a href="/usuario/eliminar-usuario/${u.userName}"><button class="btn btn-danger btn-sm">Eliminar</button>
+                    </td>
+                </tr>
+            </#list>
+        </#if>
         </tbody>
     </table>
 </div>
@@ -44,7 +48,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="formNuevoUsuario">
+                <form action="/usuario/agregar-usuario" method="post">
                     <div class="mb-3">
                         <label for="nombre" class="form-label">Nombre</label>
                         <input type="text" class="form-control" id="nombre" name="nombre">
@@ -55,39 +59,17 @@
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Contraseña</label>
-                        <input type="password" class="form-control" id="password" name="password">
+                        <input type="text" class="form-control" id="password" name="password">
                     </div>
                     <div class="mb-3">
                         <label for="rol" class="form-label">Rol</label>
                         <select class="form-select" id="rol" name="rol">
-                            <option value="user">ROLE_USER</option>
-                            <option value="admin">ROLE_ADMIN</option>
+                            <option value="ROLE_USER">ROLE_USER</option>
+                            <option value="ROLE_ADMIN">ROLE_ADMIN</option>
                         </select>
                     </div>
+                        <button type="submit" class="btn btn-primary">Crear Usuario</button>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-primary">Crear Usuario</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal Confirmar Eliminación -->
-<div class="modal fade" id="eliminarUsuarioModal" tabindex="-1" aria-labelledby="eliminarUsuarioModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="eliminarUsuarioModalLabel">Confirmar Eliminación</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                ¿Estás seguro de que deseas eliminar este usuario?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-danger">Eliminar Usuario</button>
             </div>
         </div>
     </div>
@@ -96,3 +78,4 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+

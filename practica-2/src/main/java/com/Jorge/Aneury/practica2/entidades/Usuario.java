@@ -3,7 +3,7 @@ package com.Jorge.Aneury.practica2.entidades;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 public class Usuario implements Serializable {
@@ -17,13 +17,13 @@ public class Usuario implements Serializable {
     private boolean activo;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Rol> roles;
+    private List<Rol> roles;
 
     public Usuario() {
 
     }
 
-    public Usuario(String userName, String passWord, String nombre, boolean activo, Set<Rol> roles) {
+    public Usuario(String userName, String passWord, String nombre, boolean activo, List<Rol> roles) {
         this.userName = userName;
         this.passWord = passWord;
         this.nombre = nombre;
@@ -63,11 +63,11 @@ public class Usuario implements Serializable {
         this.activo = activo;
     }
 
-    public Set<Rol> getRoles() {
+    public List<Rol> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<Rol> roles) {
+    public void setRoles(List<Rol> roles) {
         this.roles = roles;
     }
 }

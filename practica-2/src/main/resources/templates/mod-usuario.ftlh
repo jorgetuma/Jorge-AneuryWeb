@@ -10,18 +10,18 @@
 
 <div class="container mt-4">
     <h2>Modificar Usuario</h2>
-    <form id="formModificarUsuario">
+    <form id="formModificarUsuario" action="/usuario/mod-usuario" method="post">
         <div class="mb-3">
             <label for="username" class="form-label">Username</label>
-            <input type="text" class="form-control" id="username" name="username" value="nombre_de_usuario">
+            <input type="text" class="form-control" id="username" name="username" value="${usuario.userName}">
         </div>
         <div class="mb-3">
             <label for="nombre" class="form-label">Nombre</label>
-            <input type="text" class="form-control" id="nombre" name="nombre" value="Nombre del Usuario">
+            <input type="text" class="form-control" id="nombre" name="nombre" value="${usuario.nombre}">
         </div>
         <div class="mb-3">
             <label for="password" class="form-label">Contraseña</label>
-            <input type="text" class="form-control" id="password" name="password" value="">
+            <input type="text" class="form-control" id="password" name="password" value="${usuario.passWord}">
         </div>
         <div class="mb-3">
             <label for="rol" class="form-label">Rol</label>
