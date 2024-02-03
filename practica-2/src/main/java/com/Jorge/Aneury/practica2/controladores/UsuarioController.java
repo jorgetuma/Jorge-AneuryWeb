@@ -22,8 +22,8 @@ public class UsuarioController {
     @GetMapping("/listar-usuario/{pag}")
     public String listarUsuarios(Model model,@PathVariable("pag") int pag) {
         if(pag <=0) {pag = 1;}
-        List<Usuario> usuarios = usuarioService.getUsuariosPaginados(pag - 1,3);
-        long cantPag = usuarioService.obtenerCantidadUsuariosActivos(3);
+        List<Usuario> usuarios = usuarioService.getUsuariosPaginados(pag - 1,10);
+        long cantPag = usuarioService.obtenerCantidadUsuariosActivos(10);
         model.addAttribute("usuarios",usuarios);
         model.addAttribute("cantpag",cantPag);
         model.addAttribute("size",usuarios.size());
