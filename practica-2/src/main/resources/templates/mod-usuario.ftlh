@@ -23,13 +23,25 @@
             <label for="password" class="form-label">Contraseña</label>
             <input type="text" class="form-control" id="password" name="password" value="${usuario.passWord}">
         </div>
-        <div class="mb-3">
-            <label for="rol" class="form-label">Rol</label>
-            <select class="form-select" id="rol" name="rol">
-                <option value="ROLE_USER">ROLE_USER</option>
-                <option value="ROLE_ADMIN">ROLE_ADMIN</option>
-            </select>
-        </div>
+        <#if usuario.roles[0].role == "ROLE_USER">
+            <div class="mb-3">
+                <label for="rol" class="form-label">Rol</label>
+                <select class="form-select" id="rol" name="rol">
+                    <option SELECTED value="ROLE_USER">ROLE_USER</option>
+                    <option value="ROLE_ADMIN">ROLE_ADMIN</option>
+                </select>
+            </div>
+        </#if>
+
+        <#if usuario.roles[0].role == "ROLE_ADMIN">
+            <div class="mb-3">
+                <label for="rol" class="form-label">Rol</label>
+                <select class="form-select" id="rol" name="rol">
+                    <option value="ROLE_USER">ROLE_USER</option>
+                    <option SELECTED value="ROLE_ADMIN">ROLE_ADMIN</option>
+                </select>
+            </div>
+        </#if>
         <button type="submit" class="btn btn-primary">Guardar Cambios</button>
         <a href="/usuario/listar-usuario/1"> <button type="button" class="btn btn-secondary">Cancelar</button></a>
     </form>
