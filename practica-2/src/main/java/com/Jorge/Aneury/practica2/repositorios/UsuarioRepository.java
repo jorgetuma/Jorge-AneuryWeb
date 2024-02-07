@@ -18,4 +18,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario,String> {
    List<Usuario> findAllByActivo(PageRequest pageable, boolean status);
 
    long countAllByActivo(boolean status);
+
+   boolean existsUsuarioByUserNameAndActivo(String userName,boolean activo);
 }

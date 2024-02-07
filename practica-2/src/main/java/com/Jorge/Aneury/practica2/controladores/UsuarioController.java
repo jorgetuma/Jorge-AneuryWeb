@@ -39,7 +39,8 @@ public class UsuarioController {
 
     @PostMapping("/agregar-usuario")
     public String agregarUsuario(@RequestParam("nombre") String nombre, @RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("rol")String roles) {
-        usuarioService.insertar(username,password,nombre,List.of(usuarioService.getRol(roles)));
+       boolean bool = usuarioService.insertar(username,password,nombre,List.of(usuarioService.getRol(roles)));
+        if(!bool) {return "redirect:/usuario/error";}
         return "redirect:/usuario/listar-usuario/1";
     }
 
@@ -53,5 +54,14 @@ public class UsuarioController {
     public String eliminarUsuario(@PathVariable("userName") String userName) {
         usuarioService.eliminar(userName);
         return "redirect:/usuario/listar-usuario/1";
+    }
+
+    @GetMapping("/error")
+    public String errorUsuario(Model model) {
+        model.addAttribute("mensaje","Nombre de usuario no esta disponible");
+        model.addAttribute("url","/usuario/listar-usuario/1");
+        model.addAttribute("titulo","Username no disponible");
+        model.addAttribute("boton","Volver a la lista de usarios");
+        return "/mensaje";
     }
 }
