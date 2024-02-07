@@ -39,14 +39,18 @@ public class UsuarioService {
     }
 
     @Transactional
-    public void insertar(String userName,String passWord ,String nombre, List<Rol> roles) {
-        Usuario u = new Usuario();
-        u.setUserName(userName);
-        u.setNombre(nombre);
-        u.setPassWord(passWord);
-        u.setRoles(roles);
-        u.setActivo(true);
-        usuarioRepository.save(u);
+    public boolean insertar(String userName,String passWord ,String nombre, List<Rol> roles) {
+        if(!isUsernameEnUso(userName)) {
+            Usuario u = new Usuario();
+            u.setUserName(userName);
+            u.setNombre(nombre);
+            u.setPassWord(passWord);
+            u.setRoles(roles);
+            u.setActivo(true);
+            usuarioRepository.save(u);
+            return true;
+        }
+        return false;
     }
 
     @Transactional
@@ -82,5 +86,9 @@ public class UsuarioService {
         admin.setActivo(true);
         admin.setRoles(List.of(rolAdmin));
         usuarioRepository.save(admin);
+    }
+
+    public boolean isUsernameEnUso(String userName) {
+        return usuarioRepository.existsUsuarioByUserNameAndActivo(userName,true);
     }
 }

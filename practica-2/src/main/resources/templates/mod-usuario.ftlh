@@ -13,7 +13,7 @@
     <form id="formModificarUsuario" action="/usuario/mod-usuario" method="post">
         <div class="mb-3">
             <label for="username" class="form-label">Username</label>
-            <input type="text" class="form-control" id="username" name="username" value="${usuario.userName}">
+            <input type="text" class="form-control" id="username" name="username" value="${usuario.userName}" readonly>
         </div>
         <div class="mb-3">
             <label for="nombre" class="form-label">Nombre</label>
