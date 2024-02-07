@@ -23,16 +23,18 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>
-                <a href="#"><button class="btn btn-primary btn-sm">Modificar</button></a>
-                <a href="#"><button class="btn btn-danger btn-sm">Eliminar</button></a>
-            </td>
-        </tr>
+            <#list mockups as mockup>
+                <tr>
+                    <td>${mockup.name}</td>
+                    <td>${mockup.description}</td>
+                    <td>${mockup.expirationDate}</td>
+                    <td><a href="/${mockup.id}" class="link-underline link-underline-opacity-0 link-underline-opacity-75-hover">/${mockup.id}</a></td>
+                    <td>
+                        <a href="#"><button class="btn btn-primary btn-sm">Modificar</button></a>
+                        <a href="#"><button class="btn btn-danger btn-sm">Eliminar</button></a>
+                    </td>
+                </tr>
+            </#list>
         </tbody>
     </table>
 </div>
