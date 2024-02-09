@@ -2,16 +2,22 @@ package com.Jorge.Aneury.practica2.controladores;
 
 import com.Jorge.Aneury.practica2.entidades.Mockup;
 import com.Jorge.Aneury.practica2.servicios.MockupService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
-@Controller
+@RestController
 @RequestMapping("/")
 public class MockupController {
 
@@ -22,74 +28,63 @@ public class MockupController {
         this.mockupService = mockupService;
     }
 
-    @GetMapping("/")
-    public String index(Model model) {
-        model.addAttribute("mockups", mockupService.getAllMockups());
-        return "/listar-mockup";
-    }
+    @RequestMapping(value = "/{id}")
+    public ResponseEntity<?> getMockup(@PathVariable UUID id, HttpServletRequest request) throws InterruptedException {
+        String requestMethod = request.getMethod();
+        Mockup mockup = mockupService.getMockupById(id);
 
-    @RequestMapping("/{id}")
-    public String getMockup(@PathVariable UUID id, Model model) {
-        model.addAttribute("mockup", mockupService.getMockupById(id));
-        return "ver-mockup";
-    }
+        if (mockup != null && requestMethod.equalsIgnoreCase(mockup.getHttpMethod())) {
+            HttpHeaders headers = new HttpHeaders();
 
-    @GetMapping("listar-mockup")
-    public String listarMackups(Model model) {
-        model.addAttribute("mockups", mockupService.getAllMockups());
-        return "/listar-mockup";
-    }
+            try {
+                // Convertir la cadena JSON de headers a un mapa Java
+                ObjectMapper objectMapper = new ObjectMapper();
+                Map<String, String> headerMap = objectMapper.readValue(mockup.getHeaders(), Map.class);
 
-    @GetMapping("crear-mockup")
-    public String mockupForm() {
-        return "/crear-mockup";
-    }
+                // Añadir cada header al HttpHeaders
+                for (Map.Entry<String, String> entry : headerMap.entrySet()) {
+                    headers.add(entry.getKey(), entry.getValue());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Error");
+            }
 
-    @PostMapping("crear-mockup")
-    public String crearMockup(@RequestParam String name,
-                            @RequestParam String httpMethod,
-                            @RequestParam String headers,
-                            @RequestParam int responseCode,
-                            @RequestParam String contentType,
-                            @RequestParam String responseBody,
-                            @RequestParam String description,
-                            @RequestParam String expirationDate,
-                            @RequestParam float responseDelay,
-                            @RequestParam(required = false) boolean jwtEnabled) {
-        Mockup mockup = new Mockup();
-        mockup.setName(name);
-        mockup.setHttpMethod(httpMethod);
-        mockup.setHeaders(headers);
-        mockup.setResponseCode(responseCode);
-        mockup.setContentType(contentType);
-        mockup.setResponseBody(responseBody);
-        mockup.setDescription(description);
-        mockup.setResponseDelay(responseDelay);
-        mockup.setJwtEnabled(jwtEnabled);
+            String contentType = mockup.getContentType();
+            long delay = (long) (mockup.getResponseDelay() * 1000);
+            System.out.println(delay);
+            if (contentType.equals("application/json")) {
+                TimeUnit.MICROSECONDS.sleep( delay * 1000);
+                return ResponseEntity.status(mockup.getResponseCode())
+                        .headers(headers)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(mockup.getResponseBody());
+            } else if (contentType.equals("text/html")) {
+                TimeUnit.MICROSECONDS.sleep( delay);
+                return ResponseEntity.status(mockup.getResponseCode())
+                        .headers(headers)
+                        .contentType(MediaType.TEXT_HTML)
+                        .body(mockup.getResponseBody());
+            } else if (contentType.equals("application/xml")) {
+                TimeUnit.MICROSECONDS.sleep( delay);
+                return ResponseEntity.status(mockup.getResponseCode())
+                        .headers(headers)
+                        .contentType(MediaType.APPLICATION_XML)
+                        .body(mockup.getResponseBody());
+            } else if (contentType.equals("text/plain")) {
+                TimeUnit.MICROSECONDS.sleep( delay );
+                return ResponseEntity.status(mockup.getResponseCode())
+                        .headers(headers)
+                        .contentType(MediaType.TEXT_PLAIN)
+                        .body(mockup.getResponseBody());
+            } else {
+                TimeUnit.MICROSECONDS.sleep( delay );
+                return ResponseEntity.ok().headers(headers).body(mockup.getResponseBody());
+            }
 
-        Date currentDate = new Date();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(currentDate);
-
-        if (expirationDate.equals("1 anio")) {
-            calendar.add(Calendar.YEAR, 1);
-            mockup.setExpirationDate(calendar.getTime());
-        } else if (expirationDate.equals("1 mes")) {
-            calendar.add(Calendar.MONTH, 1);
-            mockup.setExpirationDate(calendar.getTime());
-        } else if (expirationDate.equals("1 semana")) {
-            calendar.add(Calendar.WEEK_OF_MONTH, 1);
-            mockup.setExpirationDate(calendar.getTime());
-        } else if (expirationDate.equals("1 dia")) {
-            calendar.add(Calendar.DAY_OF_MONTH, 1);
-            mockup.setExpirationDate(calendar.getTime());
-        } else if (expirationDate.equals("1 hora")) {
-            calendar.add(Calendar.HOUR, 1);
-            mockup.setExpirationDate(calendar.getTime());
+        } else {
+            return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body("Method Not Allowed");
         }
-
-        mockupService.save(mockup);
-        return "redirect:/";
     }
 
 }

@@ -16,7 +16,7 @@
         <thead>
         <tr>
             <th>Nombre</th>
-            <th>Descripción</th>
+            <th>Fecha Creación</th>
             <th>Fecha</th>
             <th>URL</th>
             <th>Acción</th>
@@ -26,7 +26,7 @@
             <#list mockups as mockup>
                 <tr>
                     <td>${mockup.name}</td>
-                    <td>${mockup.description}</td>
+                    <td>${mockup.createdDate}</td>
                     <td>${mockup.expirationDate}</td>
                     <td><a href="/${mockup.id}" class="link-underline link-underline-opacity-0 link-underline-opacity-75-hover">/${mockup.id}</a></td>
                     <td>

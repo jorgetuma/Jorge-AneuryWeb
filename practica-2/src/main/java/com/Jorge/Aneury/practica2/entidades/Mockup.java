@@ -2,6 +2,7 @@ package com.Jorge.Aneury.practica2.entidades;
 
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -25,7 +26,8 @@ public class Mockup implements Serializable {
 
     private String responseBody;
 
-    private String description;
+    @CreatedDate
+    private Date createdDate;
 
     private Date expirationDate;
 
@@ -38,7 +40,7 @@ public class Mockup implements Serializable {
     @Nullable
     private Usuario user;
 
-    public Mockup(UUID id, String name, String httpMethod, String headers, int responseCode, String contentType, String responseBody, String description, Date expirationDate, float responseDelay, boolean jwtEnabled, Usuario user) {
+    public Mockup(UUID id, String name, String httpMethod, String headers, int responseCode, String contentType, String responseBody, Date createdDate, Date expirationDate, float responseDelay, boolean jwtEnabled, Usuario user) {
         this.id = id;
         this.name = name;
         this.httpMethod = httpMethod;
@@ -46,7 +48,7 @@ public class Mockup implements Serializable {
         this.responseCode = responseCode;
         this.contentType = contentType;
         this.responseBody = responseBody;
-        this.description = description;
+        this.createdDate = createdDate;
         this.expirationDate = expirationDate;
         this.responseDelay = responseDelay;
         JwtEnabled = jwtEnabled;
@@ -105,12 +107,12 @@ public class Mockup implements Serializable {
         this.responseBody = responseBody;
     }
 
-    public String getDescription() {
-        return description;
+    public Date getCreatedDate() {
+        return createdDate;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 
     public Date getExpirationDate() {
@@ -163,7 +165,6 @@ public class Mockup implements Serializable {
                 ", responseCode=" + responseCode +
                 ", contentType='" + contentType + '\'' +
                 ", responseBody='" + responseBody + '\'' +
-                ", description='" + description + '\'' +
                 ", expirationDate=" + expirationDate +
                 ", responseDelay=" + responseDelay +
                 ", JwtEnabled=" + JwtEnabled +

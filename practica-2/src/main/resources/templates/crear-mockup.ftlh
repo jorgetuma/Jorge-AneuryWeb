@@ -16,10 +16,6 @@
             <input type="text" class="form-control" id="name" name="name" placeholder="Ingrese el nombre del Endpoint">
         </div>
 
-        <div class="form-group">
-            <label for="description">Descripción</label>
-            <textarea class="form-control" id="description" rows="3" name="description" placeholder="Ingrese la descripción"></textarea>
-        </div>
 
         <div class="form-group">
             <label for="httpMethod">Método de Acceso</label>
@@ -35,7 +31,7 @@
 
         <div class="form-group">
             <label for="headers">Headers para la trama de respuesta</label>
-            <input type="text" class="form-control" id="responseHeaders" name="headers" placeholder="Ingrese los headers separados por coma (key: value)">
+            <textarea class="form-control" id="responseHeaders" name="headers" placeholder="Ingrese los headers como JSON" rows="3"></textarea>
         </div>
 
         <div class="form-group">
