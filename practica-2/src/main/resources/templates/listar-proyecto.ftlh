@@ -33,6 +33,16 @@
         </#list>
     </#if>
 
+    <div>
+        <#if pag <= cantpag>
+            <a href="/proyecto/listar-proyecto/${pag + 1}" class="btn btn-primary">Siguiente</a>
+        </#if>
+
+        <#if pag!=1>
+            <a href="/proyecto/listar-proyecto/${pag - 1}" class="btn btn-primary">Anterior</a>
+        </#if>
+    </div>
+
     <!-- Modal para crear un nuevo proyecto -->
     <div class="modal fade" id="crearProyectoModal" tabindex="-1" role="dialog" aria-labelledby="crearProyectoModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">

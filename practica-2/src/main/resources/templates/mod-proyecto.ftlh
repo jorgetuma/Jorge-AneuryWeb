@@ -24,7 +24,7 @@
             <input class="form-control" id="descripcion" name="descripcion"  placeholder="Descripción del Proyecto" value="${proyecto.descripcion}">
         </div>
         <button type="submit" class="btn btn-primary">Modificar</button>
-       <a href="/proyecto/listar-proyecto"><button type="button" class="btn btn-secondary">cancelar</button></a>
+       <a href="/proyecto/listar-proyecto/1"><button type="button" class="btn btn-secondary">cancelar</button></a>
     </form>
 </div>
 

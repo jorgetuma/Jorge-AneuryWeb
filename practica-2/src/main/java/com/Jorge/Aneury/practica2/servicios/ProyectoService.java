@@ -4,6 +4,7 @@ import com.Jorge.Aneury.practica2.entidades.Proyecto;
 import com.Jorge.Aneury.practica2.repositorios.ProyectoRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +21,11 @@ public class ProyectoService {
 
     public List<Proyecto> getProyectos() {
         return  proyectoRepository.findAllByActivo(true);
+    }
+
+    public List<Proyecto> getUsuariosPaginados(int pag, int numporPagina){
+        PageRequest paginaRequest = PageRequest.of(pag, numporPagina);
+        return proyectoRepository.findAllByActivo(paginaRequest,true);
     }
 
     public Proyecto getProyectoById(int id) {
@@ -47,5 +53,9 @@ public class ProyectoService {
     public void eliminar(int id) {
         Proyecto p = proyectoRepository.findById(id);
         p.setActivo(false);
+    }
+
+    public long obtenerCantidadProyectosActivos(int cantidadporPagina) {
+        return proyectoRepository.countAllByActivo(true)/cantidadporPagina;
     }
 }
