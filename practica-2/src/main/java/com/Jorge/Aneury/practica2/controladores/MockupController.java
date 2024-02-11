@@ -52,7 +52,7 @@ public class MockupController {
 
             String contentType = mockup.getContentType();
             long delay = (long) (mockup.getResponseDelay() * 1000);
-            System.out.println(delay);
+
             if (contentType.equals("application/json")) {
                 TimeUnit.MICROSECONDS.sleep( delay * 1000);
                 return ResponseEntity.status(mockup.getResponseCode())

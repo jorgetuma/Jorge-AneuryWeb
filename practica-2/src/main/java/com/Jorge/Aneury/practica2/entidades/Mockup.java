@@ -40,7 +40,10 @@ public class Mockup implements Serializable {
     @Nullable
     private Usuario user;
 
-    public Mockup(UUID id, String name, String httpMethod, String headers, int responseCode, String contentType, String responseBody, Date createdDate, Date expirationDate, float responseDelay, boolean jwtEnabled, Usuario user) {
+    @ManyToOne
+    private Proyecto project;
+
+    public Mockup(UUID id, String name, String httpMethod, String headers, int responseCode, String contentType, String responseBody, Date createdDate, Date expirationDate, float responseDelay, boolean jwtEnabled, Usuario user, Proyecto project) {
         this.id = id;
         this.name = name;
         this.httpMethod = httpMethod;
@@ -53,6 +56,7 @@ public class Mockup implements Serializable {
         this.responseDelay = responseDelay;
         JwtEnabled = jwtEnabled;
         this.user = user;
+        this.project = project;
     }
 
     public Mockup() {
@@ -153,6 +157,14 @@ public class Mockup implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Proyecto getProject() {
+        return project;
+    }
+
+    public void setProject(Proyecto project) {
+        this.project = project;
     }
 
     @Override
