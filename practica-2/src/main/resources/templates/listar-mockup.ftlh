@@ -45,6 +45,7 @@
             <tr>
                 <th>Nombre</th>
                 <th>Proyecto</th>
+                <th>Descripción</th>
                 <th>Fecha Creación</th>
                 <th>Fecha Expiración</th>
                 <th>URL</th>
@@ -56,12 +57,13 @@
                     <tr>
                         <td>${mockup.name}</td>
                         <td>${mockup.project.nombre}</td>
+                        <td>${mockup.httpMethod} - ${mockup.contentType} - ${mockup.responseCode}</td>
                         <td>${mockup.createdDate?string["dd MMM yyyy, hh:mm:ss a "]}</td>
                         <td>${mockup.expirationDate?string["dd MMM yyyy, hh:mm:ss a "]}</td>
                         <td><a href="/${mockup.id}" class="link-underline link-underline-opacity-0 link-underline-opacity-75-hover">/${mockup.id}</a></td>
                         <td>
-                            <a href="#"><button class="btn btn-primary btn-sm">Modificar</button></a>
-                            <a href="#"><button class="btn btn-danger btn-sm">Eliminar</button></a>
+                            <a href="/modificar-mockup/${mockup.id}"><button class="btn btn-primary btn-sm">Modificar</button></a>
+                            <a href="/eliminar-mockup/${mockup.id}"><button class="btn btn-danger btn-sm">Eliminar</button></a>
                         </td>
                     </tr>
                 </#list>
