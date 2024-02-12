@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crea tu Mockup</title>
+    <title><@spring.message "titulo-mod"/></title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -34,15 +34,15 @@
 </nav>
 
 <div class="container my-3">
-    <h2 class="mb-3">Modifica tu Mockup</h2>
+    <h2 class="mb-3"><@spring.message "titulo-mod"/></h2>
     <form action="/mod-mockup/${mockup.id}" method="POST">
         <div class="mb-3">
-            <label for="name" class="form-label">Nombre del Endpoint</label>
-            <input type="text" class="form-control" id="name" name="name" value="${mockup.name}" placeholder="Ingrese el nombre del Endpoint">
+            <label for="name" class="form-label"><@spring.message "nombre-enpoint"/></label>
+            <input type="text" class="form-control" id="name" name="name" value="${mockup.name}" placeholder="<@spring.message "ph_nombre"/>">
         </div>
 
         <div class="mb-3">
-            <label for="project" class="form-label">Proyecto</label>
+            <label for="project" class="form-label"><@spring.message "proyecto"/></label>
             <select id="project" class="form-select" name="project" required>
                 <option value="${mockup.project.id}">${mockup.project.nombre}</option>
                 <#list projects as project>
@@ -53,7 +53,7 @@
 
 
         <div class="mb-3">
-            <label for="httpMethod" class="form-label">Método de Acceso</label>
+            <label for="httpMethod" class="form-label"><@spring.message "metodo-acceso"/></label>
             <select class="form-control" id="httpMethod" name="httpMethod" required>
                 <option value="${mockup.httpMethod}">${mockup.httpMethod}</option>
                 <option value="GET">GET</option>
@@ -66,15 +66,15 @@
         </div>
 
         <div class="mb-3">
-            <label for="headers" class="form-label">Headers para la trama de respuesta</label>
-            <textarea class="form-control" id="responseHeaders" name="headers" placeholder="Ingrese los headers como JSON" rows="3"></textarea>
+            <label for="headers" class="form-label"><@spring.message "headers-respuesta"/></label>
+            <textarea class="form-control" id="responseHeaders" name="headers" placeholder="<@spring.message "ph_headers"/>" rows="3"></textarea>
             <#if errorHeaders??>
                 <p class="text-danger">${errorHeaders}</p>
             </#if>
         </div>
 
         <div class="mb-3">
-            <label for="responseCode" class="form-label">Código de respuesta de la petición</label>
+            <label for="responseCode" class="form-label"><@spring.message "codigo-respuesta"/></label>
             <select class="form-control" name="responseCode" id="responseCode">
                 <option value="${mockup.responseCode}">${mockup.responseCode}</option>
                 <option value="200">200 OK</option>
@@ -88,7 +88,7 @@
         </div>
 
         <div class="mb-3">
-            <label for="contentType" class="form-label">Content-Type para la trama de respuesta</label>
+            <label for="contentType" class="form-label"><@spring.message "content-type"/></label>
             <select class="form-control" id="contentType" name="contentType" required>
                 <option value="${mockup.contentType}">${mockup.contentType}</option>
                 <option value="application/json">application/json</option>
@@ -99,44 +99,44 @@
         </div>
 
         <div class="mb-3">
-            <label for="responseBody" class="form-label">Cuerpo del mensaje en la respuesta</label>
-            <textarea class="form-control" id="responseBody" rows="3" name="responseBody" placeholder="Ingrese el cuerpo del mensaje en la respuesta">${mockup.responseBody}</textarea>
+            <label for="responseBody" class="form-label"><@spring.message "cuerpo-respuesta"/></label>
+            <textarea class="form-control" id="responseBody" rows="3" name="responseBody" placeholder="<@spring.message "ph_cuerpo-respuesta"/>">${mockup.responseBody}</textarea>
             <#if errorResponseBody??>
                 <p class="text-danger">${errorResponseBody}</p>
             </#if>
         </div>
 
         <div class="mb-3">
-            <label for="expirationDate" class="form-label">Tiempo de expiración del Endpoint</label>
+            <label for="expirationDate" class="form-label"><@spring.message "tiempo-expiracicon"/></label>
             <select class="form-control" id="expirationDate" name="expirationDate">
-                <option value="1 anio" selected>1 año</option>
-                <option value="1 mes">1 mes</option>
-                <option value="1 semana">1 semana</option>
-                <option value="1 dia">1 día</option>
-                <option value="1 hora">1 hora</option>
+                <option value="1 anio" selected><@spring.message "1-anio"/></option>
+                <option value="1 mes"><@spring.message "1-mes"/></option>
+                <option value="1 semana"><@spring.message "1-semana"/></option>
+                <option value="1 dia"><@spring.message "1-dia"/></option>
+                <option value="1 hora"><@spring.message "1-hora"/></option>
             </select>
         </div>
 
         <div class="mb-3">
-            <label for="responseDelay" class="form-label">Tiempo de demora de la respuesta (segundos)</label>
+            <label for="responseDelay" class="form-label"><@spring.message "demora"/></label>
             <input  type="number" name="responseDelay" class="form-control" id="responseDelay"  placeholder="Ingrese el tiempo de demora de la respuesta" min="0.00" value="${mockup.responseDelay}" step="0.01">
         </div>
 
         <#if mockup.jwtEnabled == false>
             <div class="form-check">
                 <input type="checkbox" class="form-check-input" id="jwtEnabled" name="jwtEnabled">
-                <label class="form-check-label" for="jwtEnabled">Habilitar validación vía JWT</label>
+                <label class="form-check-label" for="jwtEnabled"><@spring.message "jwt"/></label>
             </div>
         </#if>
         <#if mockup.jwtEnabled == true>
         <div class="form-check">
             <input checked type="checkbox" class="form-check-input" id="jwtEnabled" name="jwtEnabled">
-            <label class="form-check-label" for="jwtEnabled">Habilitar validación vía JWT</label>
+            <label class="form-check-label" for="jwtEnabled"><@spring.message "jwt"/></label>
         </div>
         </#if>
 
-        <button type="submit" class="btn btn-primary mt-3">Crear</button>
-        <a href="/listar-mockup" class="btn btn-secondary mt-3">Cancelar</a>
+        <button type="submit" class="btn btn-primary mt-3"><@spring.message "modificar"/></button>
+        <a href="/listar-mockup" class="btn btn-secondary mt-3"><@spring.message "cancelar"/></a>
     </form>
 </div>
 <!-- Bootstrap JS -->
