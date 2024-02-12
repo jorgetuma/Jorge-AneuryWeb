@@ -39,21 +39,31 @@
         Crear Proyecto
     </button>
 
-    <#if size!=0>
-        <#list proyectos as p>
-            <ul class="list-group">
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Nombre: ${p.nombre}
-                    <span class="badge badge-primary badge-pill">descripción: ${p.descripcion}</span>
-                    <span class="badge badge-primary badge-pill">Usuario: ${p.userName}</span>
-                    <div>
-                        <a href="/proyecto/modificar-proyecto/${p.id}"><button class="btn btn-primary btn-sm mr-2">Modificar</button></a>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Usuario</th>
+            <th>Acción</th>
+        </tr>
+        </thead>
+        <tbody>
+        <#if size!=0>
+            <#list proyectos as p>
+                <tr>
+                    <td>${p.nombre}</td>
+                    <td>${p.descripcion}</td>
+                    <td>${p.userName}</td>
+                    <td>
+                        <a href="/proyecto/modificar-proyecto/${p.id}"><button class="btn btn-primary btn-sm">Modificar</button></a>
                         <a href="/proyecto/eliminar-proyecto/${p.id}"><button class="btn btn-danger btn-sm">Eliminar</button></a>
-                    </div>
-                </li>
-            </ul>
-        </#list>
-    </#if>
+                    </td>
+                </tr>
+            </#list>
+        </#if>
+        </tbody>
+    </table>
 
     <div>
         <#if pag <= cantpag>
