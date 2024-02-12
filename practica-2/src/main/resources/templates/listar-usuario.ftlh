@@ -82,6 +82,9 @@
             </div>
             <div class="modal-body">
                 <form action="/usuario/agregar-usuario" method="post">
+                    <#if _csrf??>
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                    </#if>
                     <div class="mb-3">
                         <label for="nombre" class="form-label">Nombre</label>
                         <input type="text" class="form-control" id="nombre" name="nombre">

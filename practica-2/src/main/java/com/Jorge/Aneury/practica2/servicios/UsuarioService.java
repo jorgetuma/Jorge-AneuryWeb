@@ -72,21 +72,21 @@ public class UsuarioService {
         return rolRepository.findByRole(nombre);
     }
 
-    public void crearUsuarios(){
-        System.out.println("Creación del usuario y rol en la base de datos");
-        Rol rolAdmin = new Rol("ROLE_ADMIN");
-        Rol rolUsuario = new Rol("ROLE_USER");
-        rolRepository.save(rolAdmin);
-        rolRepository.save(rolUsuario);
-
-        Usuario admin = new Usuario();
-        admin.setUserName("admin");
-        admin.setNombre("Administrador");
-        admin.setPassWord("admin");
-        admin.setActivo(true);
-        admin.setRoles(List.of(rolAdmin));
-        usuarioRepository.save(admin);
-    }
+//    public void crearUsuarios(){
+//        System.out.println("Creación del usuario y rol en la base de datos");
+//        Rol rolAdmin = new Rol("ROLE_ADMIN");
+//        Rol rolUsuario = new Rol("ROLE_USER");
+//        rolRepository.save(rolAdmin);
+//        rolRepository.save(rolUsuario);
+//
+//        Usuario admin = new Usuario();
+//        admin.setUserName("admin");
+//        admin.setNombre("Administrador");
+//        admin.setPassWord("admin");
+//        admin.setActivo(true);
+//        admin.setRoles(List.of(rolAdmin));
+//        usuarioRepository.save(admin);
+//    }
 
     public boolean isUsernameEnUso(String userName) {
         return usuarioRepository.existsUsuarioByUserNameAndActivo(userName,true);

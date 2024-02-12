@@ -35,6 +35,9 @@
 <div class="container my-3">
     <h2 class="mb-3"><@spring.message "titulo-mock"/></h2>
     <form action="crear-mockup" method="POST">
+        <#if _csrf??>
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        </#if>
         <div class="mb-3">
             <label for="name" class="form-label"><@spring.message "nombre-enpoint"/></label>
             <input type="text" class="form-control" id="name" name="name" placeholder="<@spring.message "ph_nombre" />">

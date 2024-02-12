@@ -85,6 +85,9 @@
                 </div>
                 <div class="modal-body">
                     <form action="/proyecto/crear-proyecto" method="post" id="crearProyectoForm">
+                        <#if _csrf??>
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                        </#if>
                         <div class="mb-3">
                             <label for="nombre">Nombre del Proyecto</label>
                             <input type="text" class="form-control" id="nombre" name="nombre">

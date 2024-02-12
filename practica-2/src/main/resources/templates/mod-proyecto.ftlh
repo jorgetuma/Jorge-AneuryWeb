@@ -34,6 +34,9 @@
 <div class="container mt-5">
     <h2>Modificar Proyecto</h2>
     <form action="/proyecto/mod-proyecto/${proyecto.id}" method="post">
+        <#if _csrf??>
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        </#if>
         <div class="form-group">
             <label for="username">Usuario:</label>
             <input type="text" class="form-control" id="username" name="username" value="${proyecto.userName}" readonly>

@@ -2,11 +2,15 @@ package com.Jorge.Aneury.practica2.controladores;
 
 import com.Jorge.Aneury.practica2.entidades.Mockup;
 import com.Jorge.Aneury.practica2.entidades.Proyecto;
+import com.Jorge.Aneury.practica2.entidades.Usuario;
 import com.Jorge.Aneury.practica2.servicios.MockupService;
 import com.Jorge.Aneury.practica2.servicios.ProyectoService;
+import com.Jorge.Aneury.practica2.servicios.UsuarioService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,11 +25,13 @@ public class MockupCrudController {
 
     private MockupService mockupService;
     private ProyectoService proyectoService;
+    private UsuarioService usuarioService;
 
     @Autowired
-    public MockupCrudController(MockupService mockupService, ProyectoService proyectoService) {
+    public MockupCrudController(MockupService mockupService, ProyectoService proyectoService, UsuarioService usuarioService) {
         this.mockupService = mockupService;
         this.proyectoService = proyectoService;
+        this.usuarioService = usuarioService;
     }
 
     @GetMapping("/")
@@ -82,6 +88,9 @@ public class MockupCrudController {
             return "crear-mockup";
         }
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Usuario currentUser = usuarioService.getUsuarioByUsername(authentication.getName());
+
         Mockup mockup = new Mockup();
         mockup.setName(name);
         mockup.setHttpMethod(httpMethod);
@@ -92,6 +101,7 @@ public class MockupCrudController {
         mockup.setResponseDelay(responseDelay);
         mockup.setJwtEnabled(jwtEnabled);
         mockup.setProject(proyectoService.getProyectoById(project));
+        mockup.setUser(currentUser);
 
         Date currentDate = new Date();
         mockup.setCreatedDate(currentDate);
@@ -128,7 +138,7 @@ public class MockupCrudController {
         return "/mod-mockup";
     }
 
-    @PostMapping("mod-mockup/{id}")
+    @PostMapping("/mod-mockup/{id}")
     public String modMockup(@PathVariable("id") UUID id,@RequestParam String name,
                               @RequestParam String httpMethod,
                               @RequestParam String headers,

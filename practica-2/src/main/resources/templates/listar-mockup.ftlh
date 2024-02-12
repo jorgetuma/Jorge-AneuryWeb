@@ -60,7 +60,7 @@
                         <td>${mockup.httpMethod} - ${mockup.contentType} - ${mockup.responseCode}</td>
                         <td>${mockup.createdDate?string["dd MMM yyyy, hh:mm:ss a "]}</td>
                         <td>${mockup.expirationDate?string["dd MMM yyyy, hh:mm:ss a "]}</td>
-                        <td><a href="/${mockup.id}" class="link-underline link-underline-opacity-0 link-underline-opacity-75-hover">/${mockup.id}</a></td>
+                        <td><a href="/${mockup.project.id}/${mockup.id}" class="link-underline link-underline-opacity-0 link-underline-opacity-75-hover">/${mockup.id}</a></td>
                         <td>
                             <a href="/modificar-mockup/${mockup.id}"><button class="btn btn-primary btn-sm">Modificar</button></a>
                             <a href="/eliminar-mockup/${mockup.id}"><button class="btn btn-danger btn-sm">Eliminar</button></a>

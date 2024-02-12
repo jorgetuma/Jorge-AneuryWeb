@@ -33,6 +33,9 @@
 <div class="container mt-4">
     <h2>Modificar Usuario</h2>
     <form id="formModificarUsuario" action="/usuario/mod-usuario" method="post">
+        <#if _csrf??>
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        </#if>
         <div class="mb-3">
             <label for="username" class="form-label">Username</label>
             <input type="text" class="form-control" id="username" name="username" value="${usuario.userName}" readonly>
