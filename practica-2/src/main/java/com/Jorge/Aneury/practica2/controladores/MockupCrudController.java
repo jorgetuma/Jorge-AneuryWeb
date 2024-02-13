@@ -2,6 +2,7 @@ package com.Jorge.Aneury.practica2.controladores;
 
 import com.Jorge.Aneury.practica2.entidades.Mockup;
 import com.Jorge.Aneury.practica2.entidades.Proyecto;
+import com.Jorge.Aneury.practica2.entidades.Rol;
 import com.Jorge.Aneury.practica2.entidades.Usuario;
 import com.Jorge.Aneury.practica2.servicios.MockupService;
 import com.Jorge.Aneury.practica2.servicios.ProyectoService;
@@ -35,14 +36,30 @@ public class MockupCrudController {
     }
 
     @GetMapping("/")
-    public String index(Model model) {
-        model.addAttribute("mockups", mockupService.getAllMockups());
-        return "/listar-mockup";
+    public String index() {
+        return "redirect:/listar-mockup";
     }
 
     @GetMapping("listar-mockup")
     public String listarMackups(Model model) {
-        model.addAttribute("mockups", mockupService.getAllMockups());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Usuario currentUser = usuarioService.getUsuarioByUsername(authentication.getName());
+
+        boolean admin = false;
+
+        for (Rol rol: currentUser.getRoles()) {
+            if (rol.getRole().equals("ROLE_ADMIN")) {
+                admin = true;
+                break;
+            }
+        }
+
+        if (admin) {
+            model.addAttribute("mockups", mockupService.getAllMockups());
+        } else {
+            model.addAttribute("mockups", currentUser.getMockups());
+        }
+
         return "/listar-mockup";
     }
 

@@ -19,6 +19,9 @@ public class Usuario implements Serializable {
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Rol> roles;
 
+    @OneToMany(mappedBy = "user")
+    private List<Mockup> mockups;
+
     public Usuario() {
 
     }
@@ -69,5 +72,13 @@ public class Usuario implements Serializable {
 
     public void setRoles(List<Rol> roles) {
         this.roles = roles;
+    }
+
+    public List<Mockup> getMockups() {
+        return mockups;
+    }
+
+    public void setMockups(List<Mockup> mockups) {
+        this.mockups = mockups;
     }
 }

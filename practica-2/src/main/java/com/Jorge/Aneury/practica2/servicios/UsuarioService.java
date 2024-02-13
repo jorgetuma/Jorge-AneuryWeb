@@ -15,10 +15,13 @@ public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private  final RolRepository rolRepository;
 
+    private SecurityServices securityServices;
+
     @Autowired
-    public UsuarioService(UsuarioRepository usuarioRepository, RolRepository rolRepository) {
+    public UsuarioService(UsuarioRepository usuarioRepository, RolRepository rolRepository, SecurityServices securityServices) {
         this.usuarioRepository = usuarioRepository;
         this.rolRepository = rolRepository;
+        this.securityServices = securityServices;
     }
 
     public List<Usuario> getUsuarios() {
@@ -44,7 +47,7 @@ public class UsuarioService {
             Usuario u = new Usuario();
             u.setUserName(userName);
             u.setNombre(nombre);
-            u.setPassWord(passWord);
+            u.setPassWord(securityServices.passwordEncoder().encode(passWord));
             u.setRoles(roles);
             u.setActivo(true);
             usuarioRepository.save(u);
@@ -57,7 +60,7 @@ public class UsuarioService {
     public void modificar(String userName,String passWord,String nombre,List<Rol> roles) {
         Usuario u = usuarioRepository.findByUserName(userName);
         u.setUserName(userName);
-        u.setPassWord(passWord);
+        u.setPassWord(securityServices.passwordEncoder().encode(passWord));
         u.setNombre(nombre);
         u.setRoles(roles);
     }

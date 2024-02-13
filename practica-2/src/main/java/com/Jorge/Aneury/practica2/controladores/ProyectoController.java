@@ -1,8 +1,12 @@
 package com.Jorge.Aneury.practica2.controladores;
 
 import com.Jorge.Aneury.practica2.entidades.Proyecto;
+import com.Jorge.Aneury.practica2.entidades.Usuario;
 import com.Jorge.Aneury.practica2.servicios.ProyectoService;
+import com.Jorge.Aneury.practica2.servicios.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,16 +18,21 @@ import java.util.List;
 public class ProyectoController {
 
     private final ProyectoService proyectoService;
+    private UsuarioService usuarioService;
 
     @Autowired
-    public ProyectoController(ProyectoService proyectoService) {
+    public ProyectoController(ProyectoService proyectoService, UsuarioService usuarioService) {
         this.proyectoService = proyectoService;
+        this.usuarioService = usuarioService;
     }
 
     @GetMapping("/listar-proyecto/{pag}")
     public String listarProyecto(Model model,@PathVariable("pag") int pag) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Usuario currentUser = usuarioService.getUsuarioByUsername(authentication.getName());
+
         if(pag <= 0) {pag = 1;}
-        List<Proyecto> proyectos = proyectoService.getUsuariosPaginados(pag - 1, 10);
+        List<Proyecto> proyectos = proyectoService.getUsuariosPaginados(pag - 1, 10, currentUser);
         long cantPag = proyectoService.obtenerCantidadProyectosActivos(10);
         model.addAttribute("proyectos",proyectos);
         model.addAttribute("size",proyectos.size());
@@ -39,8 +48,10 @@ public class ProyectoController {
     }
 
     @PostMapping("/crear-proyecto")
-    public String crearProyecto(@RequestParam("nombre") String nombre,@RequestParam("descripcion") String descripcion ,@RequestParam("username") String userName) {
-        proyectoService.isertar(nombre,descripcion,userName);
+    public String crearProyecto(@RequestParam("nombre") String nombre,@RequestParam("descripcion") String descripcion) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Usuario currentUser = usuarioService.getUsuarioByUsername(authentication.getName());
+        proyectoService.isertar(nombre,descripcion,currentUser);
         return "redirect:/proyecto/listar-proyecto/1";
     }
 

@@ -1,9 +1,7 @@
 package com.Jorge.Aneury.practica2.entidades;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
 @Entity
 public class Proyecto {
     @Id
@@ -12,7 +10,10 @@ public class Proyecto {
     private String nombre;
 
     private String descripcion;
-    private String userName;
+//    private String userName;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private Usuario user;
 
     private boolean activo;
 
@@ -37,12 +38,12 @@ public class Proyecto {
         this.nombre = nombre;
     }
 
-    public String getUserName() {
-        return userName;
+    public Usuario getUser() {
+        return user;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUser(Usuario user) {
+        this.user = user;
     }
 
     public boolean isActivo() {

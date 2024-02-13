@@ -37,7 +37,6 @@ public class Mockup implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @Nullable
     private Usuario user;
 
     @ManyToOne

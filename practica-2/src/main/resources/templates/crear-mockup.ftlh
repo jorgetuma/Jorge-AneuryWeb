@@ -17,7 +17,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav me-auto">
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="/">Mockups</a>
                 </li>
@@ -28,6 +28,9 @@
                     <a class="nav-link" href="/usuario/listar-usuario/1">Usuarios</a>
                 </li>
             </ul>
+            <span class="navbar-text">
+                <a href="/logout" class="nav-link">Logout</a>
+            </span>
         </div>
     </div>
 </nav>

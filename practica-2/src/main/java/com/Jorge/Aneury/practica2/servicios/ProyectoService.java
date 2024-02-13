@@ -1,6 +1,7 @@
 package com.Jorge.Aneury.practica2.servicios;
 
 import com.Jorge.Aneury.practica2.entidades.Proyecto;
+import com.Jorge.Aneury.practica2.entidades.Usuario;
 import com.Jorge.Aneury.practica2.repositorios.ProyectoRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +24,9 @@ public class ProyectoService {
         return  proyectoRepository.findAllByActivo(true);
     }
 
-    public List<Proyecto> getUsuariosPaginados(int pag, int numporPagina){
+    public List<Proyecto> getUsuariosPaginados(int pag, int numporPagina, Usuario usuario){
         PageRequest paginaRequest = PageRequest.of(pag, numporPagina);
-        return proyectoRepository.findAllByActivo(paginaRequest,true);
+        return proyectoRepository.findProyectosByUserAndActivo(paginaRequest,usuario,true);
     }
 
     public Proyecto getProyectoById(int id) {
@@ -33,11 +34,12 @@ public class ProyectoService {
     }
 
     @Transactional
-    public void isertar(String nombre,String descripcion,String username) {
+    public void isertar(String nombre, String descripcion, Usuario user) {
         Proyecto p = new Proyecto();
         p.setNombre(nombre);
         p.setDescripcion(descripcion);
-        p.setUserName(username);
+//        p.setUserName(username);
+        p.setUser(user);
         p.setActivo(true);
         proyectoRepository.save(p);
     }

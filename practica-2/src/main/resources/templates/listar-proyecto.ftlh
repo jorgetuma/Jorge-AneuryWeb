@@ -16,7 +16,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav me-auto">
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="/">Mockups</a>
                 </li>
@@ -27,6 +27,9 @@
                     <a class="nav-link" href="/usuario/listar-usuario/1">Usuarios</a>
                 </li>
             </ul>
+            <span class="navbar-text">
+                <a href="/logout" class="nav-link">Logout</a>
+            </span>
         </div>
     </div>
 </nav>
@@ -54,7 +57,7 @@
                 <tr>
                     <td>${p.nombre}</td>
                     <td>${p.descripcion}</td>
-                    <td>${p.userName}</td>
+                    <td>${p.user.nombre}</td>
                     <td>
                         <a href="/proyecto/modificar-proyecto/${p.id}"><button class="btn btn-primary btn-sm">Modificar</button></a>
                         <a href="/proyecto/eliminar-proyecto/${p.id}"><button class="btn btn-danger btn-sm">Eliminar</button></a>
@@ -98,10 +101,10 @@
                             <input type="text" class="form-control" id="descripcion" name="descripcion">
                         </div>
 
-                        <div class="mb-3">
-                            <label for="username">Usuario Asociado</label>
-                            <input type="text" class="form-control" id="username" name="username">
-                        </div>
+<#--                        <div class="mb-3">-->
+<#--                            <label for="username">Usuario Asociado</label>-->
+<#--                            <input type="text" class="form-control" id="username" name="username">-->
+<#--                        </div>-->
 
                     </form>
                 </div>

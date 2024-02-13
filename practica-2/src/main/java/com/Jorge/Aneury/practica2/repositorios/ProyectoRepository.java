@@ -1,6 +1,7 @@
 package com.Jorge.Aneury.practica2.repositorios;
 
 import com.Jorge.Aneury.practica2.entidades.Proyecto;
+import com.Jorge.Aneury.practica2.entidades.Usuario;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -19,5 +20,6 @@ public interface ProyectoRepository  extends JpaRepository<Proyecto,Integer> {
 
     long countAllByActivo(boolean activo);
 
+    List<Proyecto> findProyectosByUserAndActivo(PageRequest pageRequest, Usuario user, boolean activo);
 
 }

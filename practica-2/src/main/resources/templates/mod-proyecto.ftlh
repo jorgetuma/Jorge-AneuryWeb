@@ -16,7 +16,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav me-auto">
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="/">Mockups</a>
                 </li>
@@ -27,6 +27,9 @@
                     <a class="nav-link" href="/usuario/listar-usuario/1">Usuarios</a>
                 </li>
             </ul>
+            <span class="navbar-text">
+                <a href="/logout" class="nav-link">Logout</a>
+            </span>
         </div>
     </div>
 </nav>
@@ -37,10 +40,10 @@
         <#if _csrf??>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         </#if>
-        <div class="form-group">
-            <label for="username">Usuario:</label>
-            <input type="text" class="form-control" id="username" name="username" value="${proyecto.userName}" readonly>
-        </div>
+<#--        <div class="form-group">-->
+<#--            <label for="username">Usuario:</label>-->
+<#--            <input type="text" class="form-control" id="username" name="username" value="${proyecto.userName}" readonly>-->
+<#--        </div>-->
         <div class="form-group">
             <label for="nombre">Nombre del Proyecto:</label>
             <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre del Proyecto" value="${proyecto.nombre}">

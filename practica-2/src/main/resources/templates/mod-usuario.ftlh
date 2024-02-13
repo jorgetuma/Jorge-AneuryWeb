@@ -15,7 +15,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav me-auto">
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="/">Mockups</a>
                 </li>
@@ -26,6 +26,9 @@
                     <a class="nav-link active" href="/usuario/listar-usuario/1">Usuarios</a>
                 </li>
             </ul>
+            <span class="navbar-text">
+                <a href="/logout" class="nav-link">Logout</a>
+            </span>
         </div>
     </div>
 </nav>
@@ -46,7 +49,7 @@
         </div>
         <div class="mb-3">
             <label for="password" class="form-label">Contraseña</label>
-            <input type="text" class="form-control" id="password" name="password" value="${usuario.passWord}">
+            <input type="password" class="form-control" id="password" name="password" value="${usuario.passWord}">
         </div>
         <#if usuario.roles[0].role == "ROLE_USER">
             <div class="mb-3">
