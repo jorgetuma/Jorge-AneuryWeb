@@ -34,14 +34,13 @@
     </div>
 </nav>
 
-<div class="container mt-4">
+<div class="container mt-5">
+    <h2 class="mb-3">Listado de Mockups</h2>
     <a href="/crear-mockup" class="btn btn-primary mb-3">
        Nuevo Mockup
         <i class="bi bi-plus-lg"></i>
     </a>
 
-
-    <h2>Listado de Mockups</h2>
     <div class="table-responsive">
         <table class="table table-hover">
             <thead>
@@ -51,19 +50,17 @@
                 <th>Descripción</th>
                 <th>Fecha Creación</th>
                 <th>Fecha Expiración</th>
-                <th>URL</th>
                 <th>Acción</th>
             </tr>
             </thead>
             <tbody>
                 <#list mockups as mockup>
                     <tr>
-                        <td>${mockup.name}</td>
+                        <td><a href="/${mockup.project.id}/${mockup.id}" class="link-underline link-underline-opacity-0 link-underline-opacity-75-hover">${mockup.name}</a></td>
                         <td>${mockup.project.nombre}</td>
                         <td>${mockup.httpMethod} - ${mockup.contentType} - ${mockup.responseCode}</td>
                         <td>${mockup.createdDate?string["dd MMM yyyy, hh:mm:ss a "]}</td>
                         <td>${mockup.expirationDate?string["dd MMM yyyy, hh:mm:ss a "]}</td>
-                        <td><a href="/${mockup.project.id}/${mockup.id}" class="link-underline link-underline-opacity-0 link-underline-opacity-75-hover">/${mockup.id}</a></td>
                         <td>
                             <a href="/modificar-mockup/${mockup.id}"><button class="btn btn-primary btn-sm">Modificar</button></a>
                             <a href="/eliminar-mockup/${mockup.id}"><button class="btn btn-danger btn-sm">Eliminar</button></a>

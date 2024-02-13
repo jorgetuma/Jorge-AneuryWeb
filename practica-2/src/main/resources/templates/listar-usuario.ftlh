@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Listado de Usuarios</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
 
@@ -33,10 +34,13 @@
     </div>
 </nav>
 
-<div class="container mt-4">
-    <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#nuevoUsuarioModal">Nuevo Usuario</button>
+<div class="container mt-5">
+    <h2 class="mb-3">Listado de Usuarios</h2>
+    <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#nuevoUsuarioModal">
+        Nuevo Usuario
+        <i class="bi bi-plus-lg"></i>
+    </button>
 
-    <h2>Listado de Usuarios</h2>
     <table class="table">
         <thead>
         <tr>
