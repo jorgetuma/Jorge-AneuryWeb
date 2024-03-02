@@ -21,6 +21,11 @@ public class TramaJSONController {
         this.tramaJSONService = tramaJSONService;
     }
 
+    @RequestMapping("/dashboard/{id}")
+    public String dashboard(@PathVariable("id") int id) {
+        return "/dashboard";
+    }
+
     @RequestMapping("/generar/{id}")
     @ResponseBody
     public TramaJSON generar(@PathVariable("id") int id) {

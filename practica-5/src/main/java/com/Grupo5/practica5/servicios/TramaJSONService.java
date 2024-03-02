@@ -17,7 +17,7 @@ public class TramaJSONService {
         for(int i = 0; i<20;i++) {
           Number humedad = rand.nextFloat(100);
           Number temperatura = rand.nextInt(100);
-          Date fecha = new Date(rand.nextLong(System.currentTimeMillis()));
+          Date fecha = new Date(System.currentTimeMillis() + rand.nextInt(100));
           SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
           String fechaFormateada = formatoFecha.format(fecha);
           TramaJSON trama = new TramaJSON(id,temperatura,humedad,fechaFormateada);
@@ -30,7 +30,7 @@ public class TramaJSONService {
         Random rand = new Random();
         Number humedad = rand.nextFloat(100);
         Number temperatura = rand.nextInt(100);
-        Date fecha = new Date(rand.nextLong(System.currentTimeMillis()));
+        Date fecha = new Date(System.currentTimeMillis() + rand.nextInt(100));
         SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         String fechaFormateada = formatoFecha.format(fecha);
         TramaJSON trama = new TramaJSON(id,temperatura,humedad,fechaFormateada);
