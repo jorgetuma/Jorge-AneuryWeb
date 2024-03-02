@@ -6,9 +6,9 @@ public class TramaJSON {
     private int idDispositivo;
     private Number temperatura;
     private Number humedad;
-    private Date fechaGeneracion;
+    private String fechaGeneracion;
 
-    public TramaJSON(int idDispositivo, Number temperatura, Number humedad, Date fechaGeneracion) {
+    public TramaJSON(int idDispositivo, Number temperatura, Number humedad, String fechaGeneracion) {
         this.idDispositivo = idDispositivo;
         this.temperatura = temperatura;
         this.humedad = humedad;
@@ -39,11 +39,11 @@ public class TramaJSON {
         this.humedad = humedad;
     }
 
-    public Date getFechaGeneracion() {
+    public String getFechaGeneracion() {
         return fechaGeneracion;
     }
 
-    public void setFechaGeneracion(Date fechaGeneracion) {
+    public void setFechaGeneracion(String fechaGeneracion) {
         this.fechaGeneracion = fechaGeneracion;
     }
 }
