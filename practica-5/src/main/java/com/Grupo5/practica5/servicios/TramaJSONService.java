@@ -11,10 +11,10 @@ import java.util.Random;
 
 @Service
 public class TramaJSONService {
-    public List<TramaJSON> generarTramasJSON(int id) {
+    public List<TramaJSON> generarTramasJSON(int id, int n) {
         List<TramaJSON> lista = new ArrayList<>();
         Random rand = new Random();
-        for(int i = 0; i<20;i++) {
+        for(int i = 0; i<n;i++) {
           Number humedad = rand.nextFloat(100);
           Number temperatura = rand.nextInt(100);
           Date fecha = new Date(System.currentTimeMillis() + rand.nextInt(100));

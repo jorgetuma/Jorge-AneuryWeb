@@ -1,9 +1,12 @@
 package com.Grupo5.practica5.controladores;
 
+import com.Grupo5.practica5.encapsulaciones.Sensor;
 import com.Grupo5.practica5.encapsulaciones.TramaJSON;
+import com.Grupo5.practica5.servicios.DispositivoService;
 import com.Grupo5.practica5.servicios.TramaJSONService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -12,17 +15,21 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/")
-public class TramaJSONController {
+public class DispositivoController {
 
     private final TramaJSONService tramaJSONService;
+    private final DispositivoService dispositivoService;
 
     @Autowired
-    public TramaJSONController(TramaJSONService tramaJSONService) {
+    public DispositivoController(TramaJSONService tramaJSONService, DispositivoService dispositivoService) {
         this.tramaJSONService = tramaJSONService;
+        this.dispositivoService = dispositivoService;
     }
 
     @RequestMapping("/dashboard/{id}")
-    public String dashboard(@PathVariable("id") int id) {
+    public String dashboard(@PathVariable("id") int id, Model model) {
+        Sensor sensor = dispositivoService.findDispositivoById(id);
+        model.addAttribute("dispositivo",sensor);
         return "/dashboard";
     }
 
@@ -35,6 +42,6 @@ public class TramaJSONController {
     @RequestMapping("/generar-lista/{id}")
     @ResponseBody
     public List<TramaJSON> generarLista(@PathVariable("id") int id) {
-        return tramaJSONService.generarTramasJSON(id);
+        return tramaJSONService.generarTramasJSON(id,20);
     }
 }

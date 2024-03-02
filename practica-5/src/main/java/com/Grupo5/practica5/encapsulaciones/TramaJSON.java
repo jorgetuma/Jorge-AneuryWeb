@@ -1,8 +1,9 @@
 package com.Grupo5.practica5.encapsulaciones;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class TramaJSON {
+public class TramaJSON implements Serializable {
     private int idDispositivo;
     private Number temperatura;
     private Number humedad;
