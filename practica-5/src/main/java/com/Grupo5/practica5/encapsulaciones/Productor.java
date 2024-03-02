@@ -34,7 +34,9 @@ public class Productor {
         Queue queue = session.createQueue("queue");
         producer = session.createProducer(queue);
 
-        Message message = session.createObjectMessage(tramaJSON);
+        Message message = session.createTextMessage("ID:"+tramaJSON.getIdDispositivo()+" "+"Temperatura:"+tramaJSON.getTemperatura()
+                +"Celsius"+" "+"Humedad:"+tramaJSON.getHumedad()+"%" +" "+ "Fecha Generacion:"+tramaJSON.getFechaGeneracion());
+
         producer.send(message);
 
         //Desconectando la referencia.

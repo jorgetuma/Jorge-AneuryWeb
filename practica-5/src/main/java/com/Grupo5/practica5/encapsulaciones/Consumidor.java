@@ -1,5 +1,6 @@
 package com.Grupo5.practica5.encapsulaciones;
 
+import com.Grupo5.practica5.servicios.TramaJSONService;
 import jakarta.jms.*;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
@@ -32,7 +33,7 @@ public class Consumidor {
 
         // Arrancamos la conexión
         //Puede verlo en direccion por defecto de tu activemq local:
-        //http://127.0.0.1:8161/admin/connections.jsp
+        //http://127.0.0.1:8161/admin/connections.admin
         connection.start();
 
         // Creando una sesión no transaccional y automatica.
@@ -47,8 +48,8 @@ public class Consumidor {
 
         consumer.setMessageListener(message -> {
             try {
-                TextMessage messageTexto = (TextMessage) message;
-                System.out.println("Trama JSON recibida: " + messageTexto.getText()+" - "+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date()));
+                TextMessage textMessage = (TextMessage) message;
+                System.out.println("Trama JSON recibida: " + textMessage.getText());
             }catch(Exception ex){
                 ex.printStackTrace();
             }
