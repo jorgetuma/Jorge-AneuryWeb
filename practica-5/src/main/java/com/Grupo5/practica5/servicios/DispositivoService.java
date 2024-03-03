@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 @Service
 public class DispositivoService {
-    private List<Sensor> dispositivosActivos;
+    private final List<Sensor> dispositivosActivos;
 
     public DispositivoService() {
         this.dispositivosActivos = new ArrayList<>();

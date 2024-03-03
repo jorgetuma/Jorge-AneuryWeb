@@ -26,6 +26,14 @@ public class DispositivoController {
         this.dispositivoService = dispositivoService;
     }
 
+    @RequestMapping("/")
+    public String listar(Model model) {
+        List<Sensor> dispositivos = dispositivoService.getDispositivosActivos();
+        model.addAttribute("dispositivos",dispositivos);
+        model.addAttribute("size",dispositivos.size());
+        return "/listar";
+    }
+
     @RequestMapping("/dashboard/{id}")
     public String dashboard(@PathVariable("id") int id, Model model) {
         Sensor sensor = dispositivoService.findDispositivoById(id);
