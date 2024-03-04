@@ -25,9 +25,8 @@ public class TramaJSONService {
         return lista;
     }
 
-    public TramaJSON generarTramaJson() {
+    public TramaJSON generarTramaJson(int id) {
         Random rand = new Random();
-        int id = rand.nextInt(2) + 1;
         Number humedad = rand.nextFloat(100);
         Number temperatura = rand.nextInt(100);
         Date fecha = new Date(System.currentTimeMillis() + rand.nextInt(100));

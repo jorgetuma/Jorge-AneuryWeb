@@ -12,10 +12,12 @@ public class Cliente {
 
     public void generarDatos(int delay) throws Exception {
         TramaJSONService tramaJSONService = new TramaJSONService();
-       TramaJSON trama;
+       TramaJSON trama1,trama2;
        while(true) {
-       trama = tramaJSONService.generarTramaJson();
-       publicador.enviarMensaje(trama);
+       trama1 = tramaJSONService.generarTramaJson(1);
+       trama2 = tramaJSONService.generarTramaJson(2);
+       publicador.enviarMensaje(trama1);
+       publicador.enviarMensaje(trama2);
        Thread.sleep(delay);
        }
     }
