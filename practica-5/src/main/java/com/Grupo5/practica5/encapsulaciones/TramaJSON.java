@@ -1,19 +1,35 @@
 package com.Grupo5.practica5.encapsulaciones;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import org.springframework.context.annotation.Primary;
+
 import java.io.Serializable;
 import java.util.Date;
+import java.util.UUID;
 
+@Entity
 public class TramaJSON implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String idTrama;
     private int idDispositivo;
-    private Number temperatura;
-    private Number humedad;
+    private int temperatura;
+    private float humedad;
     private String fechaGeneracion;
 
-    public TramaJSON(int idDispositivo, Number temperatura, Number humedad, String fechaGeneracion) {
-        this.idDispositivo = idDispositivo;
-        this.temperatura = temperatura;
-        this.humedad = humedad;
-        this.fechaGeneracion = fechaGeneracion;
+    public TramaJSON() {
+
+    }
+
+    public String getIdTrama() {
+        return idTrama;
+    }
+
+    public void setIdTrama(String idTrama) {
+        this.idTrama = idTrama;
     }
 
     public int getIdDispositivo() {
@@ -24,19 +40,19 @@ public class TramaJSON implements Serializable {
         this.idDispositivo = idDispositivo;
     }
 
-    public Number getTemperatura() {
+    public int getTemperatura() {
         return temperatura;
     }
 
-    public void setTemperatura(Number temperatura) {
+    public void setTemperatura(int temperatura) {
         this.temperatura = temperatura;
     }
 
-    public Number getHumedad() {
+    public float getHumedad() {
         return humedad;
     }
 
-    public void setHumedad(Number humedad) {
+    public void setHumedad(float humedad) {
         this.humedad = humedad;
     }
 

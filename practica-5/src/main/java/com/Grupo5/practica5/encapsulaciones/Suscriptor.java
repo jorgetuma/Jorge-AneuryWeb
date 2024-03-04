@@ -1,22 +1,29 @@
 package com.Grupo5.practica5.encapsulaciones;
 
-import com.Grupo5.practica5.servicios.TramaJSONService;
+import com.Grupo5.practica5.servicios.DispositivoService;
+import com.google.gson.Gson;
 import jakarta.jms.*;
 import org.apache.activemq.ActiveMQConnectionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Component;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.lang.reflect.Type;
 
-public class Consumidor {
+@Component
+public class Suscriptor {
     ActiveMQConnectionFactory factory;
     Connection connection;
     Session session;
-    Queue queue;
-    Topic topic;
     MessageConsumer consumer;
 
-    public Consumidor() {
+    Gson gson = new Gson();
 
+    DispositivoService dispositivoService;
+
+    public Suscriptor(DispositivoService dispositivoService) {
+        this.dispositivoService = dispositivoService;
     }
 
     public void conectar() throws JMSException {
@@ -43,12 +50,14 @@ public class Consumidor {
         // la creación si no existe. Si la cola es del tipo Queue es acumula los mensajes, si es
         // del tipo topic es en el momento.
 
-            queue = session.createQueue("queue");
-            consumer = session.createConsumer(queue);
+            Topic topic = session.createTopic("sensores_notificacion");
+            consumer = session.createConsumer(topic);
 
         consumer.setMessageListener(message -> {
             try {
                 TextMessage textMessage = (TextMessage) message;
+                TramaJSON tramaJSON = gson.fromJson(textMessage.getText(),TramaJSON.class);
+                dispositivoService.insertarTrama(tramaJSON);
                 System.out.println("Trama JSON recibida: " + textMessage.getText());
             }catch(Exception ex){
                 ex.printStackTrace();
