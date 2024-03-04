@@ -1,0 +1,26 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
+}
+
+group = 'org.grupo5'
+version = '1.0-SNAPSHOT'
+
+mainClassName = 'org.grupo5.Main'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    implementation group: 'org.apache.activemq', name: 'activemq-broker', version: '6.0.1'
+    implementation 'com.google.code.gson:gson:2.9.1'
+    implementation  group: 'org.slf4j', name: 'slf4j-jdk14', version: '1.7.24'
+}
+
+test {
+    useJUnitPlatform()
+}
