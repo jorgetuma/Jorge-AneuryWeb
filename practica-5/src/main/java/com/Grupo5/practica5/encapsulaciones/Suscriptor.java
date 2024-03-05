@@ -7,6 +7,7 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Type;
@@ -21,6 +22,9 @@ public class Suscriptor {
     Gson gson = new Gson();
 
     DispositivoService dispositivoService;
+
+    @Autowired
+    SimpMessagingTemplate template;
 
     public Suscriptor(DispositivoService dispositivoService) {
         this.dispositivoService = dispositivoService;

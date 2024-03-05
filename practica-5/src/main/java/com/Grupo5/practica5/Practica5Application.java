@@ -3,6 +3,7 @@ package com.Grupo5.practica5;
 import com.Grupo5.practica5.encapsulaciones.Sensor;
 import com.Grupo5.practica5.encapsulaciones.Suscriptor;
 import com.Grupo5.practica5.servicios.DispositivoService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.jms.JMSException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
