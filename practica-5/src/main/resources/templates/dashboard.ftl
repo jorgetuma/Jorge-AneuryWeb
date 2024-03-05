@@ -19,6 +19,8 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 
 <script>
     // Crear arreglos para datos de temperatura y humedad
@@ -67,6 +69,34 @@
         }
     });
 
+    const socket = new SockJS('/ws-message');
+    stompClient = Stomp.over(socket);
+
+    stompClient.connect({}, (frame) => {
+        console.log('Connected: ' + frame);
+        // Subscribe to the topic for receiving updates
+        stompClient.subscribe('/topic/message', (message) => {
+            console.log(message.body);
+            const tramaJSON = JSON.parse(message.body);
+            updateCharts(tramaJSON);
+        });
+    } , (error) => {
+        console.log('Error: ' + error);
+    });
+
+    function updateCharts(tramaJSON) {
+        const fecha = tramaJSON.fechaGeneracion;
+        const temperatura = tramaJSON.temperatura;
+        const humedad = tramaJSON.humedad;
+
+        temperatureChart.data.labels.push(fecha);
+        temperatureChart.data.datasets[0].data.push(temperatura);
+        temperatureChart.update();
+
+        humidityChart.data.labels.push(fecha);
+        humidityChart.data.datasets[0].data.push(humedad);
+        humidityChart.update();
+    }
 
 </script>
 

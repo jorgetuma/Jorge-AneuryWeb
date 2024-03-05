@@ -23,9 +23,6 @@ public class Suscriptor {
 
     DispositivoService dispositivoService;
 
-    @Autowired
-    SimpMessagingTemplate template;
-
     public Suscriptor(DispositivoService dispositivoService) {
         this.dispositivoService = dispositivoService;
     }
