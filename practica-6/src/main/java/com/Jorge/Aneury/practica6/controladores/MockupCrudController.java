@@ -10,6 +10,7 @@ import com.Jorge.Aneury.practica6.servicios.ProyectoService;
 import com.Jorge.Aneury.practica6.servicios.UsuarioService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -45,7 +46,7 @@ public class MockupCrudController {
     }
 
     @GetMapping("listar-mockup")
-    public String listarMackups(Model model) {
+    public String listarMackups(Model model, HttpSession httpSession) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Usuario currentUser = usuarioService.getUsuarioByUsername(authentication.getName());
 
@@ -60,8 +61,10 @@ public class MockupCrudController {
 
         if (admin) {
             model.addAttribute("mockups", mockupService.getAllMockups());
+            model.addAttribute("sessionid",httpSession.getId());
         } else {
             model.addAttribute("mockups", currentUser.getMockups());
+            model.addAttribute("sessionid",httpSession.getId());
         }
 
         return "/listar-mockup";
