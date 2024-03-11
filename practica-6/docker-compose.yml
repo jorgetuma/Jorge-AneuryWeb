@@ -2,11 +2,35 @@ version: '3.8'
 
 services:
   app:
-    image: aneury29/practica-4
+    image: aneury29/practica6
     ports:
-      - "${APP_PORT:-8080}:8080"
+      - "8080:8080"
     env_file:
       - .env
+    environment:
+      - PORT=8080
+    restart: always
+    depends_on:
+      - app_db
+  app2:
+    image: aneury29/practica6
+    ports:
+      - "8081:8081"
+    env_file:
+      - .env
+    environment:
+      - PORT=8081
+    restart: always
+    depends_on:
+      - app_db
+  app3:
+    image: aneury29/practica6
+    ports:
+      - "8082:8082"
+    env_file:
+      - .env
+    environment:
+      - PORT=8082
     restart: always
     depends_on:
       - app_db
@@ -21,17 +45,5 @@ services:
       - POSTGRES_DB=$DB_NAME
     volumes:
       - db-data:$DB_VOLUME_PATH
-  pgadmin:
-    image: dpage/pgadmin4
-    ports:
-      - "${PGADMIN_PORT:-8082}:80"
-    env_file:
-      - .env
-    environment:
-        - PGADMIN_DEFAULT_EMAIL=${PGADMIN_USER:-DB_USER@email.com}
-        - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASSWORD:-DB_PASSWORD}
-    depends_on:
-      - app_db
-
 volumes:
   db-data:

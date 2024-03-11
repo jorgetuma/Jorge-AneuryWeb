@@ -6,8 +6,8 @@ RUN gradle build
 
 # Etapa de producción
 FROM eclipse-temurin:21-jre-alpine
-EXPOSE 8080
+EXPOSE ${PORT:-8080}
 RUN mkdir /app
-COPY --from=build /home/gradle/src/build/libs/*.jar /app/practica4.jar
+COPY --from=build /home/gradle/src/build/libs/*.jar /app/practica6.jar
 VOLUME /logs
-ENTRYPOINT ["java", "-jar", "/app/practica4.jar"]
+ENTRYPOINT ["java", "-jar", "-Dserver.port=${PORT:-8080}", "/app/practica6.jar"]
