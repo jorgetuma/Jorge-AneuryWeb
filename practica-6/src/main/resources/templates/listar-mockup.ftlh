@@ -35,6 +35,7 @@
 </nav>
 
 <div class="container mt-5">
+    <h2>Port: ${serverPort}</h2>
     <h2>Id de la sesion: ${sessionid}</h2>
     <h2 class="mb-3">Listado de Mockups</h2>
     <a href="/crear-mockup" class="btn btn-primary mb-3">

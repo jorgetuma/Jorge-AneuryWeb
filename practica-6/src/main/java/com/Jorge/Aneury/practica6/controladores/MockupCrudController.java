@@ -12,6 +12,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -31,6 +32,9 @@ public class MockupCrudController {
     private UsuarioService usuarioService;
 
     private JwtService jwtService;
+
+    @Value("${server.port}")
+    private String serverPort;
 
     @Autowired
     public MockupCrudController(MockupService mockupService, ProyectoService proyectoService, UsuarioService usuarioService, JwtService jwtService) {
@@ -66,6 +70,7 @@ public class MockupCrudController {
             model.addAttribute("mockups", currentUser.getMockups());
             model.addAttribute("sessionid",httpSession.getId());
         }
+        model.addAttribute("serverPort", serverPort);
 
         return "/listar-mockup";
     }

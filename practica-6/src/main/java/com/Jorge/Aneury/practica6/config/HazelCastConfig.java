@@ -11,7 +11,6 @@ import org.springframework.session.hazelcast.HazelcastSessionSerializer;
 import org.springframework.session.hazelcast.config.annotation.web.http.EnableHazelcastHttpSession;
 
 @Configuration
-@EnableHazelcastHttpSession
 public class HazelCastConfig {
     private final static String SESSIONS_MAP_NAME = "SESSION-HAZELCAST";
 
