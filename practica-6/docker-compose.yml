@@ -23,6 +23,17 @@ services:
     restart: always
     depends_on:
       - app_db
+  app3:
+    image: aneury29/practica6
+    ports:
+      - "8082:8082"
+    env_file:
+      - .env
+    environment:
+      - PORT=8082
+    restart: always
+    depends_on:
+      - app_db
   app_db:
     container_name: db
     image: postgres:latest
