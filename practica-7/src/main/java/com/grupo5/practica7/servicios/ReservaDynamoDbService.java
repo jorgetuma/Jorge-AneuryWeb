@@ -5,6 +5,8 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import com.amazonaws.services.dynamodbv2.model.ComparisonOperator;
+import com.amazonaws.services.dynamodbv2.model.Condition;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.grupo5.practica7.encapsulaciones.Reserva;
 
@@ -43,6 +45,43 @@ public class ReservaDynamoDbService {
         return new ReservaResponse(false,null,reserva);
     }
 
+    public ListarReservaResponse listarReservas(FiltroListarReserva filtro,Context context) {
+        AmazonDynamoDB client = AmazonDynamoDBClientBuilder.defaultClient();
+        DynamoDBMapper mapper = new DynamoDBMapper(client);
+
+        DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
+
+        Map<String, Condition> queryFilter = new HashMap<>();
+
+        // Agregar condiciones al filtro de consulta si se proporciona un filtro
+        if (filtro != null) {
+            if (filtro.getFiltro() != null) {
+                Condition condition = new Condition()
+                        .withComparisonOperator(ComparisonOperator.EQ)
+                        .withAttributeValueList(new AttributeValue().withS(filtro.getFiltro()));
+                queryFilter.put("fechaReserva", condition);
+            }
+        }
+
+        // Establecer el filtro de consulta en la expresión de escaneo
+        if (!queryFilter.isEmpty()) {
+            scanExpression.withScanFilter(queryFilter);
+        }
+        
+        List<Reserva> reservas = mapper.scan(Reserva.class,new DynamoDBScanExpression());
+
+        return  new ListarReservaResponse(false,"",reservas);
+    }
+
+    public ReservaResponse eliminar(Reserva reserva,Context context) {
+        AmazonDynamoDB client = AmazonDynamoDBClientBuilder.defaultClient();
+        DynamoDBMapper mapper = new DynamoDBMapper(client);
+
+        mapper.delete(reserva);
+
+        return new ReservaResponse(false,null,reserva);
+    }
+
     // Método para obtener la cantidad de reservas en una hora específica
     private int obtenerReservasEnHora(Date fechaReserva, DynamoDBMapper mapper) {
         Calendar cal = Calendar.getInstance();
@@ -64,24 +103,6 @@ public class ReservaDynamoDbService {
                 .withExpressionAttributeValues(expressionAttributeValues);
 
         return mapper.scan(Reserva.class, scanExpression).size();
-    }
-
-    public ListarReservaResponse listarReservas(FiltroListarReserva filtro,Context context) {
-        AmazonDynamoDB client = AmazonDynamoDBClientBuilder.defaultClient();
-        DynamoDBMapper mapper = new DynamoDBMapper(client);
-
-        List<Reserva> reservas = mapper.scan(Reserva.class,new DynamoDBScanExpression());
-
-        return  new ListarReservaResponse(false,"",reservas);
-    }
-
-    public ReservaResponse eliminar(Reserva reserva,Context context) {
-        AmazonDynamoDB client = AmazonDynamoDBClientBuilder.defaultClient();
-        DynamoDBMapper mapper = new DynamoDBMapper(client);
-
-        mapper.delete(reserva);
-
-        return new ReservaResponse(false,null,reserva);
     }
 
     public static  class ListarReservaResponse {

@@ -28,7 +28,10 @@ public class FuncionCRUDReserva implements RequestHandler<APIGatewayProxyRequest
         String salida = "";
         switch (metodoHttp) {
             case "GET":
-                ReservaDynamoDbService.ListarReservaResponse listarReservaResponse = reservaDynamoDbService.listarReservas(null,context);
+                String filtro = request.getPathParameters().get("filto");
+                ReservaDynamoDbService.FiltroListarReserva filtroListarReserva = new ReservaDynamoDbService.FiltroListarReserva();
+                filtroListarReserva.setFiltro(filtro);
+                ReservaDynamoDbService.ListarReservaResponse listarReservaResponse = reservaDynamoDbService.listarReservas(filtroListarReserva,context);
                 salida = gson.toJson(listarReservaResponse);
                 break;
             case "POST":
