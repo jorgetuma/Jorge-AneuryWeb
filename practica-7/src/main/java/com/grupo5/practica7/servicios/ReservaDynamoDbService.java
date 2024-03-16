@@ -4,10 +4,12 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
+import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.grupo5.practica7.encapsulaciones.Reserva;
 
-import java.util.List;
+import java.sql.Time;
+import java.util.*;
 
 public class ReservaDynamoDbService {
 
@@ -15,8 +17,22 @@ public class ReservaDynamoDbService {
         AmazonDynamoDB client = AmazonDynamoDBClientBuilder.defaultClient();
         DynamoDBMapper mapper = new DynamoDBMapper(client);
 
-        if(reserva.getId().isEmpty() || reserva.getNombre().isEmpty() || reserva.getCorreo() .isEmpty()|| reserva.getLaboratorio().isEmpty()) {
+        if(reserva.getId().isEmpty() || reserva.getNombre().isEmpty() || reserva.getCorreo() .isEmpty()|| reserva.getLaboratorio().isEmpty() || reserva.getFechaReserva().isEmpty()) {
             throw new RuntimeException("Datos enviados no son validos");
+        }
+
+        // Verificar si la reserva está dentro del horario permitido (de 8 am a 10 pm)
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(Time.valueOf(reserva.getFechaReserva()));
+        int horaReserva = cal.get(Calendar.HOUR_OF_DAY); // Obtener la hora de la reserva
+        if (horaReserva < 8 || horaReserva >= 22) {
+            throw new RuntimeException("Las reservas solo están permitidas desde las 8 am hasta las 10 pm");
+        }
+
+        // Verificar si el laboratorio está lleno para la hora de la reserva
+        int reservasEnHora = obtenerReservasEnHora(new Date(cal.getTime().getTime()), mapper);
+        if (reservasEnHora >= 7) {
+            throw new RuntimeException("El laboratorio está lleno para la hora de la reserva");
         }
 
         try {
@@ -25,6 +41,29 @@ public class ReservaDynamoDbService {
             return  new ReservaResponse(true,e.getMessage(),null);
         }
         return new ReservaResponse(false,null,reserva);
+    }
+
+    // Método para obtener la cantidad de reservas en una hora específica
+    private int obtenerReservasEnHora(Date fechaReserva, DynamoDBMapper mapper) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(fechaReserva);
+        int horaReserva = cal.get(Calendar.HOUR_OF_DAY);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        Date inicioHora = cal.getTime();
+        cal.add(Calendar.HOUR_OF_DAY, 1);
+        Date finHora = cal.getTime();
+
+        Map<String, AttributeValue> expressionAttributeValues = new HashMap<>();
+        expressionAttributeValues.put(":inicio", new AttributeValue().withS(inicioHora.toString()));
+        expressionAttributeValues.put(":fin", new AttributeValue().withS(finHora.toString()));
+
+        DynamoDBScanExpression scanExpression = new DynamoDBScanExpression()
+                .withFilterExpression("fecha BETWEEN :inicio AND :fin")
+                .withExpressionAttributeValues(expressionAttributeValues);
+
+        return mapper.scan(Reserva.class, scanExpression).size();
     }
 
     public ListarReservaResponse listarReservas(FiltroListarReserva filtro,Context context) {
