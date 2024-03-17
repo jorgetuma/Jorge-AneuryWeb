@@ -45,29 +45,10 @@ public class ReservaDynamoDbService {
         return new ReservaResponse(false,null,reserva);
     }
 
-    public ListarReservaResponse listarReservas(FiltroListarReserva filtro,Context context) {
+    public ListarReservaResponse listarReservas(Context context) {
         AmazonDynamoDB client = AmazonDynamoDBClientBuilder.defaultClient();
         DynamoDBMapper mapper = new DynamoDBMapper(client);
 
-        DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
-
-        Map<String, Condition> queryFilter = new HashMap<>();
-
-        // Agregar condiciones al filtro de consulta si se proporciona un filtro
-        if (filtro != null) {
-            if (filtro.getFiltro() != null) {
-                Condition condition = new Condition()
-                        .withComparisonOperator(ComparisonOperator.EQ)
-                        .withAttributeValueList(new AttributeValue().withS(filtro.getFiltro()));
-                queryFilter.put("fechaReserva", condition);
-            }
-        }
-
-        // Establecer el filtro de consulta en la expresión de escaneo
-        if (!queryFilter.isEmpty()) {
-            scanExpression.withScanFilter(queryFilter);
-        }
-        
         List<Reserva> reservas = mapper.scan(Reserva.class,new DynamoDBScanExpression());
 
         return  new ListarReservaResponse(false,"",reservas);
