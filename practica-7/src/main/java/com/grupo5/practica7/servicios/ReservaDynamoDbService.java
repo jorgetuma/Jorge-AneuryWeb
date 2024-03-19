@@ -11,6 +11,8 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.grupo5.practica7.encapsulaciones.Reserva;
 
 import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class ReservaDynamoDbService {
@@ -19,17 +21,25 @@ public class ReservaDynamoDbService {
         AmazonDynamoDB client = AmazonDynamoDBClientBuilder.defaultClient();
         DynamoDBMapper mapper = new DynamoDBMapper(client);
 
-        if(reserva.getId().isEmpty() || reserva.getNombre().isEmpty() || reserva.getCorreo() .isEmpty()|| reserva.getLaboratorio().isEmpty() || reserva.getFechaReserva().isEmpty()) {
+        if (reserva.getId().isEmpty() || reserva.getNombre().isEmpty() || reserva.getCorreo().isEmpty() || reserva.getLaboratorio().isEmpty() || reserva.getFechaReserva().isEmpty()) {
             throw new RuntimeException("Datos enviados no son validos");
         }
 
         // Verificar si la reserva está dentro del horario permitido (de 8 am a 10 pm)
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(Time.valueOf(reserva.getFechaReserva()));
-        int horaReserva = cal.get(Calendar.HOUR_OF_DAY); // Obtener la hora de la reserva
-        if (horaReserva < 8 || horaReserva >= 22) {
-            throw new RuntimeException("Las reservas solo están permitidas desde las 8 am hasta las 10 pm");
+        Calendar cal;
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+            Date date = sdf.parse(reserva.getFechaReserva());
+            cal = Calendar.getInstance();
+            cal.setTime(date);
+            int horaReserva = cal.get(Calendar.HOUR_OF_DAY); // Obtener la hora de la reserva
+            if (horaReserva < 8 || horaReserva >= 22) {
+                throw new RuntimeException("Las reservas solo están permitidas desde las 8 am hasta las 10 pm");
+            }
+        } catch (ParseException e) {
+            throw new IllegalArgumentException("El formato de fecha y hora no es válido. Se esperaba 'yyyy-MM-dd HH:mm:ss'.", e);
         }
+
 
         // Verificar si el laboratorio está lleno para la hora de la reserva
         int reservasEnHora = obtenerReservasEnHora(new Date(cal.getTime().getTime()), mapper);
@@ -39,10 +49,10 @@ public class ReservaDynamoDbService {
 
         try {
             mapper.save(reserva);
-        }catch (Exception e) {
-            return  new ReservaResponse(true,e.getMessage(),null);
+        } catch (Exception e) {
+            return new ReservaResponse(true, e.getMessage(), null);
         }
-        return new ReservaResponse(false,null,reserva);
+        return new ReservaResponse(false, null, reserva);
     }
 
     public ListarReservaResponse listarReservas(Context context) {
