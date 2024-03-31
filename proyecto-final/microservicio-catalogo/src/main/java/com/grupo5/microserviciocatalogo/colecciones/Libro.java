@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 public class Libro {
     @Id
-    private String isbn;
+    private String id;
     private String titulo;
     private String autor;
     private String genero;
@@ -23,12 +23,12 @@ public class Libro {
         this.editorial = editorial;
     }
 
-    public String getIsbn() {
-        return isbn;
+    public String getId() {
+        return id;
     }
 
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
+    public void setIsbn(String id) {
+        this.id = id;
     }
 
     public String getTitulo() {

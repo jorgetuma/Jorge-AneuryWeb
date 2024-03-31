@@ -2,6 +2,7 @@ package com.grupo5.microserviciocatalogo.servicios;
 
 import com.grupo5.microserviciocatalogo.colecciones.Libro;
 import com.grupo5.microserviciocatalogo.repositorios.LibroRepository;
+import net.datafaker.Faker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,11 +33,15 @@ public class LibroService {
         return libroRepository.findLibrosByTituloLike(titulo);
     }
 
-    public void insertar(Libro libro) {
-        libroRepository.insert(libro);
-    }
-
-    public void generarCatalogo() {
-        //TODO
+    public void generarCatalogo(int cantLibros) {
+        Faker faker = new Faker();
+        for(int i = 0; i < cantLibros; i++) {
+            String titulo = faker.book().title();
+            String autor = faker.book().author();
+            String genero = faker.book().genre();
+            String editorial = faker.book().publisher();
+            Libro libro = new Libro(titulo,autor,genero,editorial);
+            libroRepository.insert(libro);
+        }
     }
 }
