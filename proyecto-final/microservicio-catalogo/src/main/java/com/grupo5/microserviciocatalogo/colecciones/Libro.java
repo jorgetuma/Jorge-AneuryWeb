@@ -11,16 +11,18 @@ public class Libro {
     private String autor;
     private String genero;
     private String editorial;
+    private float precio;
 
     public  Libro() {
 
     }
 
-    public Libro(String titulo, String autor, String genero, String editorial) {
+    public Libro(String titulo, String autor, String genero, String editorial,float precio) {
         this.titulo = titulo;
         this.autor = autor;
         this.genero = genero;
         this.editorial = editorial;
+        this.precio = precio;
     }
 
     public String getId() {
@@ -61,5 +63,13 @@ public class Libro {
 
     public void setEditorial(String editorial) {
         this.editorial = editorial;
+    }
+
+    public float getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(float precio) {
+        this.precio = precio;
     }
 }
