@@ -38,4 +38,9 @@ public class CatalogoController {
     public List<Libro> listarTitulo(@PathVariable("titulo") String titulo) {
         return libroService.listarCatalogoByTitulo(titulo);
     }
+
+    @RequestMapping("/buscar/{id}")
+    public Libro buscarLibro(@PathVariable("id") String id) {
+        return libroService.buscarLibroById(id);
+    }
 }

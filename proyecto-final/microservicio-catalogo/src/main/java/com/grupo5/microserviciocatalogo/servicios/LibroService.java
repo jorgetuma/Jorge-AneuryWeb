@@ -32,7 +32,11 @@ public class LibroService {
     }
 
     public List<Libro> listarCatalogoByTitulo(String titulo) {
-        return libroRepository.findLibrosByTituloLike(titulo);
+        return libroRepository.findAllByTituloLike(titulo);
+    }
+
+    public Libro buscarLibroById(String id) {
+        return libroRepository.findLibroById(id);
     }
 
     public void generarCatalogo(int cantLibros) {

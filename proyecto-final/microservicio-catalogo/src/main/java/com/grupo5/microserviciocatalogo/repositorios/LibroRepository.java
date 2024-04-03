@@ -9,6 +9,6 @@ import java.util.List;
 public interface LibroRepository extends MongoRepository<Libro,String> {
     List<Libro> findAllByAutor(String autor);
     List<Libro> findAllByGenero(String genero);
-    Libro findByTitulo(String titulo);
-    List<Libro> findLibrosByTituloLike(String titulo);
+    List<Libro> findAllByTituloLike(String titulo);
+    Libro findLibroById(String id);
 }
