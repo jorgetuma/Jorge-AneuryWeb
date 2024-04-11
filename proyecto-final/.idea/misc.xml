@@ -3,6 +3,7 @@
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="web" url="file://$PROJECT_DIR$/gestion-libros" />
+    <file type="web" url="file://$PROJECT_DIR$/microservicio-autenticacion" />
     <file type="web" url="file://$PROJECT_DIR$/microservicio-carritocompras" />
     <file type="web" url="file://$PROJECT_DIR$/microservicio-catalogo" />
     <file type="web" url="file://$PROJECT_DIR$/microservicio-notificacion-reporte" />
