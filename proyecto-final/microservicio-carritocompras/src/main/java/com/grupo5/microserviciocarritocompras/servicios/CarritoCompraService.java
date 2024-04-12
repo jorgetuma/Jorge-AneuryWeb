@@ -36,4 +36,8 @@ public class CarritoCompraService {
         CarritoCompra carritoCompra = carritoRepository.findCarritoCompraByIdCarrito(idCarrito);
         carritoCompra.getLibros().remove(idLibro);
     }
+
+    public CarritoCompra buscarCarritoByUsuario(String id) {
+        return carritoRepository.findCarritoCompraByIdCarrito(id);
+    }
 }

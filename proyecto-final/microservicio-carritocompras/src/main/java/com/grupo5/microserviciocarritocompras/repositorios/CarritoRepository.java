@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CarritoRepository  extends JpaRepository<CarritoCompra,String> {
     CarritoCompra findCarritoCompraByIdCarrito(String id);
+    CarritoCompra findCarritoCompraByIdUsuario(String id);
 }

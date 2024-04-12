@@ -1,21 +1,28 @@
 package com.grupo5.microservicionotificacion.reporte.servicios;
 
+import com.google.gson.Gson;
+import com.grupo5.microservicionotificacion.reporte.dto.CarritoCompra;
+import com.grupo5.microservicionotificacion.reporte.dto.Libro;
 import com.grupo5.microservicionotificacion.reporte.colecciones.Factura;
 import com.grupo5.microservicionotificacion.reporte.repositorios.FacturaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import org.springframework.web.client.RestClient;
 
 @Service
 public class FacturaService {
     private final FacturaRepository facturaRepository;
+    private final Gson gson;
 
     @Autowired
     public FacturaService(FacturaRepository facturaRepository) {
         this.facturaRepository = facturaRepository;
+        this.gson = new Gson();
     }
 
     public List<Factura> listar() {
@@ -32,6 +39,30 @@ public class FacturaService {
 
     public void generar(String idUsuario,float total) {
         Factura factura = new Factura(idUsuario,total,new SimpleDateFormat("dd/MM/yyyy hh:mm:ss").format(new Date()));
-        facturaRepository.insert(factura);
+       List<Libro> libros = obtenerLibrosByCarrito(idUsuario);
+       factura.setLibros(libros);
+       facturaRepository.insert(factura);
+    }
+
+    private List<Libro> obtenerLibrosByCarrito(String idUsuario) {
+        List<Libro> libros = new ArrayList<>();
+        RestClient client = RestClient.create(); // Cliente HTTP para llamar a las API de otros micro-servicios
+        String carritoJson = client.get()
+                .uri("http://localhost:8082/carrito/buscar-usuario/" + idUsuario)
+                .retrieve()
+                .body(String.class);
+
+        CarritoCompra carritoCompra = gson.fromJson(carritoJson,CarritoCompra.class);
+
+        for(int i = 0; i < carritoCompra.getLibros().size();i++) {
+            String idLibro = carritoCompra.getLibros().get(i);
+            String libroJson = client.get()
+                    .uri("http://localhost:8081/catalogo/buscar/" + idLibro)
+                    .retrieve()
+                    .body(String.class);
+            Libro libro = gson.fromJson(libroJson,Libro.class);
+            libros.add(libro);
+        }
+        return libros;
     }
 }

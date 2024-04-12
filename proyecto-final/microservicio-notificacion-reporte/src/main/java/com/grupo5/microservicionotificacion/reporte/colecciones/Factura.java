@@ -1,6 +1,6 @@
 package com.grupo5.microservicionotificacion.reporte.colecciones;
 
-import com.grupo5.microserviciocatalogo.colecciones.Libro;
+import com.grupo5.microservicionotificacion.reporte.dto.Libro;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
