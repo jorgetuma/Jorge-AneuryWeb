@@ -5,13 +5,13 @@ import com.grupo5.microservicionotificacion.reporte.dto.CarritoCompra;
 import com.grupo5.microservicionotificacion.reporte.dto.Libro;
 import com.grupo5.microservicionotificacion.reporte.colecciones.Factura;
 import com.grupo5.microservicionotificacion.reporte.repositorios.FacturaRepository;
+import net.sf.jasperreports.engine.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+
 import org.springframework.web.client.RestClient;
 
 @Service
@@ -37,11 +37,44 @@ public class FacturaService {
         return facturaRepository.findFacturaById(id);
     }
 
-    public void generar(String idUsuario,float total) {
+    public Factura generar(String idUsuario,float total) {
         Factura factura = new Factura(idUsuario,total,new SimpleDateFormat("dd/MM/yyyy hh:mm:ss").format(new Date()));
        List<Libro> libros = obtenerLibrosByCarrito(idUsuario);
        factura.setLibros(libros);
        facturaRepository.insert(factura);
+       return factura;
+    }
+
+    public JasperPrint generarReporte(Factura factura) {
+        List<Libro> libros = factura.getLibros();
+        float totalFactura = factura.getTotal();
+        List<String> nombresLibros = new ArrayList<>();
+        List<Float> preciosLibros = new ArrayList<>();
+        JasperPrint print = null;
+
+        for (Libro libro : libros) {
+            nombresLibros.add(libro.getTitulo());
+            preciosLibros.add(libro.getPrecio());
+        }
+
+        // Parámetros del informe
+        Map<String, Object> parametros = new HashMap<>();
+        parametros.put("titulo", "Factura");
+        parametros.put("idFactura", factura.getId());
+        parametros.put("nombreUsuario", "Cliente");
+        parametros.put("totalFactura", totalFactura);
+        parametros.put("nombresLibros", nombresLibros);
+        parametros.put("preciosLibros", preciosLibros);
+
+        // Compilación y generación del reporte
+        try {
+            JasperReport reporte = JasperCompileManager.compileReport("/reporte/factura.jrxml");
+             print = JasperFillManager.fillReport(reporte, parametros, new JREmptyDataSource());
+            JasperExportManager.exportReportToPdfFile(print, "/reporte/factura" + factura.getId() + ".pdf");
+        } catch (JRException e) {
+            e.printStackTrace();
+        }
+        return print;
     }
 
     private List<Libro> obtenerLibrosByCarrito(String idUsuario) {
