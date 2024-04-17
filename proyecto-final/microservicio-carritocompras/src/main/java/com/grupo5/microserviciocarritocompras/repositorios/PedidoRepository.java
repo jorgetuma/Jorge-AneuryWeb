@@ -10,6 +10,5 @@ import java.util.List;
 public interface PedidoRepository extends JpaRepository<Pedido,String> {
 
     List<Pedido> findAllByPendiente(boolean estado);
-    Pedido findPedidoByIdFactura(String id);
     Pedido findPedidoByIdPedido(String id);
 }

@@ -5,11 +5,10 @@ import com.grupo5.microserviciocarritocompras.entidades.Pedido;
 import com.grupo5.microserviciocarritocompras.servicios.CarritoCompraService;
 import com.grupo5.microserviciocarritocompras.servicios.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/pedido")
@@ -39,20 +38,15 @@ public class PedidoController {
         return pedidoService.listarByEstado(false);
     }
 
-    @RequestMapping("/crear/{iduser}&{idfactura}")
-    public void crearPedido(@PathVariable("iduser") String iduser,@PathVariable("idfactura") String idfactura) {
+    @PostMapping("/procesar/{iduser}")
+    public void procesarPedido(@PathVariable("iduser") String iduser, @RequestParam Map<String,String> params) {
         CarritoCompra carritoCompra = carritoCompraService.buscarCarritoByUsuario(iduser);
-        pedidoService.insertar(iduser,idfactura,carritoCompra);
+        pedidoService.insertar(iduser,carritoCompra,params);
     }
 
     @RequestMapping("/buscar/{id}")
     public Pedido buscar(@PathVariable("id") String id) {
         return pedidoService.buscar(id);
-    }
-
-    @RequestMapping("/buscar-factura/{id}")
-    public Pedido buscarByFactura(@PathVariable("id") String id) {
-        return  pedidoService.buscarByFactura(id);
     }
 
     @RequestMapping("/pedido-realizado/{id}")
