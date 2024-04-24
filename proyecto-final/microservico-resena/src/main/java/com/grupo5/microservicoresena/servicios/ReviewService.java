@@ -36,4 +36,8 @@ public class ReviewService {
         Review r = reviewRepository.findByIdReview(id);
         reviewRepository.delete(r);
     }
+
+    public Review buscar(String id) {
+        return reviewRepository.findByIdReview(id);
+    }
 }

@@ -23,13 +23,22 @@ public class ReviewController {
     }
 
     @PostMapping("/crear/{idusuario}&{idlibro}")
-    public void crearReview(@PathVariable("idusuario") String idusuario, @PathVariable("idlibro") String idlibro, @RequestParam("review") String review, @RequestParam("calificacion") int calificacion) {
+    public void crearReview(@PathVariable("idusuario") String idusuario, @PathVariable("idlibro") String idlibro, @RequestBody Review r) {
+        String review = r.getReview();
+        int calificacion = r.getCalificacion();
         reviewService.crearReview(idusuario,idlibro,review,calificacion);
     }
 
     @PostMapping("/editar/{id}")
-    public void editarReview(@PathVariable("id") String id,@RequestParam("review") String review, @RequestParam("calificacion") int calificacion) {
+    public void editarReview(@PathVariable("id") String id, @RequestBody Review r) {
+        String review = r.getReview();
+        int calificacion = r.getCalificacion();
         reviewService.editarReview(id,review,calificacion);
+    }
+
+    @GetMapping("/buscar/{id}")
+    public Review buscar(@PathVariable("id") String id) {
+        return reviewService.buscar(id);
     }
 
     @RequestMapping("/eliminar/{id}")

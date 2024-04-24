@@ -50,7 +50,7 @@
 <body>
 <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/catalogo/listar">E-books</a>
+        <a class="navbar-brand" href="/catalogo/listar">G5books</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -105,7 +105,7 @@
                 <form method="post" action="#">
                     <div  class="d-flex flex-row justify-content-between align-items-center p-2 bg-white mt-4 px-3 rounded">
                         <div class="product-details">
-                            <span class="font-weight-bold"><a href="#">${l.titulo}</a></span>
+                            <span class="font-weight-bold"><a href="/review/ver/${l.id}">${l.titulo}</a></span>
                             <div class="size mr-5"><span class="text-grey">Precio (RD$):</span><span class="font-weight-bold">&nbsp;${l.precio}</span></div>
                             <div class="size mr-5"><span class="text-grey">Autor:</span><span class="font-weight-bold">&nbsp;${l.autor}</span></div>
                             <div class="size mr-5"><span class="text-grey">Género:</span><span class="font-weight-bold">&nbsp;${l.genero}</span></div>
