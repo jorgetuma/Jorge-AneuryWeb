@@ -37,7 +37,7 @@ public class FacturaController {
     }
 
     @PostMapping("/generar/{idusuario}&{correo}")
-    public void generar(@PathVariable("idusuario") String idusuario,@PathVariable("correo") String correo,@RequestParam("total") float total) {
+    public void generar(@PathVariable("idusuario") String idusuario,@PathVariable("correo") String correo,@RequestBody float total) {
        Factura factura = facturaService.generar(idusuario,total);
         JasperPrint print = facturaService.generarReporte(factura);
         String mensaje = "Se ha generado su factura " + factura.getId() + "con un monto de " + factura.getTotal();
