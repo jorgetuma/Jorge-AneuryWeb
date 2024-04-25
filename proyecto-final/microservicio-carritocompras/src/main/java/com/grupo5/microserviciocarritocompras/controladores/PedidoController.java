@@ -39,7 +39,7 @@ public class PedidoController {
     }
 
     @PostMapping("/procesar/{iduser}")
-    public void procesarPedido(@PathVariable("iduser") String iduser, @RequestParam Map<String,String> params) {
+    public void procesarPedido(@PathVariable("iduser") String iduser, @RequestBody Map<String,String> params) {
         CarritoCompra carritoCompra = carritoCompraService.buscarCarritoByUsuario(iduser);
         pedidoService.insertar(iduser,carritoCompra,params);
     }
