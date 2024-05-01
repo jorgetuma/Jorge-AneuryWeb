@@ -66,4 +66,8 @@ public class PedidoService {
         Pedido pedido = pedidoRepository.findPedidoByIdPedido(id);
         pedido.setPendiente(false);
     }
+
+    public List<Pedido> listarByUsuario(String id) {
+        return pedidoRepository.findAllByIdUser(id);
+    }
 }

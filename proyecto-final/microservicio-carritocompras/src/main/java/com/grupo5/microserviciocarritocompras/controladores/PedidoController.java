@@ -38,6 +38,9 @@ public class PedidoController {
         return pedidoService.listarByEstado(false);
     }
 
+    @RequestMapping("listar-usuario/{id}")
+    public List<Pedido> listarByUsuario(@PathVariable("id") String id) {return pedidoService.listarByUsuario(id);}
+
     @PostMapping("/procesar/{iduser}")
     public void procesarPedido(@PathVariable("iduser") String iduser, @RequestBody Map<String,String> params) {
         CarritoCompra carritoCompra = carritoCompraService.buscarCarritoByUsuario(iduser);

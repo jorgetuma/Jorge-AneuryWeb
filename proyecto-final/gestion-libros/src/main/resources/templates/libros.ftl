@@ -63,7 +63,7 @@
                     <a class="nav-link" href="#">carrito de compras</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Compras realiazadas</a>
+                    <a class="nav-link" href="/compras/userid">Compras realiazadas</a>
                 </li>
                 <li class="nav-iterm" >
                     <a class="nav-link" href="#">administrar</a>
