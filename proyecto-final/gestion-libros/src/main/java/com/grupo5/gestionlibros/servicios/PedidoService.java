@@ -6,6 +6,7 @@ import com.grupo5.gestionlibros.dto.Pedido;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -40,4 +41,41 @@ public class PedidoService {
 
         return pedidos;
     }
+
+    public List<Pedido> listarFecha() {
+        List<Pedido> pedidos;
+
+        RestClient client = RestClient.create(); // Cliente HTTP para llamar a las API de otros micro-servicios
+        String pedidoJson = client.get()
+                .uri( apiUrl +"/listar-fechactual")
+                .retrieve()
+                .body(String.class);
+
+        pedidos = gson.fromJson(pedidoJson,List.class);
+
+        return pedidos;
+    }
+
+    public List<Pedido> listaRealizdas(List<Pedido> compras) {
+        List<Pedido> pedidos = new ArrayList<>();
+        for (Pedido p:compras) {
+            if(p.isPendiente() == false) {
+                pedidos.add(p);
+
+            }
+        }
+        return pedidos;
+    }
+
+    public List<Pedido> listaPedientes(List<Pedido> compras) {
+        List<Pedido> pedidos = new ArrayList<>();
+        for (Pedido p:compras) {
+            if(p.isPendiente()) {
+                pedidos.add(p);
+
+            }
+        }
+        return pedidos;
+    }
+
 }

@@ -30,6 +30,10 @@ public class PedidoService {
         return pedidoRepository.findAllByPendiente(estado);
     }
 
+    public List<Pedido> listarByFecha(String fecha) {
+        return pedidoRepository.findAllByFecha(fecha);
+    }
+
     public Pedido buscar(String id) {
         return pedidoRepository.findPedidoByIdPedido(id);
     }

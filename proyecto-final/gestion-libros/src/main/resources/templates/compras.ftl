@@ -26,7 +26,7 @@
                     <a class="nav-link" href="/compras/listar/userid">Compras realiazadas</a>
                 </li>
                 <li class="nav-iterm" >
-                    <a class="nav-link" href="#">administrar</a>
+                    <a class="nav-link" href="/admin/dashboard">administrar</a>
                 </li>
             </ul>
             <form class="d-flex" role="search">
