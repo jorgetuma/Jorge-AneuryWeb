@@ -2,9 +2,13 @@ package com.grupo5.gestionlibros.servicios;
 
 import com.google.gson.Gson;
 import com.grupo5.gestionlibros.dto.CarritoCompra;
+import com.grupo5.gestionlibros.dto.Item;
 import com.grupo5.gestionlibros.dto.Libro;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class CarritoCompraService {
@@ -68,5 +72,20 @@ public class CarritoCompraService {
         carrito = gson.fromJson(carritoJson,CarritoCompra.class);
 
         return carrito;
+    }
+
+    public void limpiarCarrito(String idCarrito) {
+        RestClient client = RestClient.create(); // Cliente HTTP para llamar a las API de otros micro-servicios
+         client.get()
+                .uri(apiUrl + "/limpiar/" + idCarrito)
+                .retrieve();
+    }
+
+    public float obtenerTotalCarrito(List<Item> items) {
+        float total = 0;
+        for(Item i: items) {
+            total+= i.calcularTotal();
+        }
+        return total;
     }
 }

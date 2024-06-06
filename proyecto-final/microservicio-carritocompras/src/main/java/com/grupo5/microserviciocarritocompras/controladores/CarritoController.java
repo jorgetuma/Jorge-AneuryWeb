@@ -42,4 +42,9 @@ public class CarritoController {
     public CarritoCompra buscarByusuario(@PathVariable("idusuario") String idusuario) {
         return carritoCompraService.buscarCarritoByUsuario(idusuario);
     }
+
+    @RequestMapping("/limpiar/{idcarrito}")
+    public void limpiarCarrito(@PathVariable("idcarrito") String idcarrito) {
+        carritoCompraService.limpiar(idcarrito);
+    }
 }

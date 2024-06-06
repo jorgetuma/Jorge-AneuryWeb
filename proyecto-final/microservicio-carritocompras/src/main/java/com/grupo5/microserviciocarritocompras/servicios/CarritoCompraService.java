@@ -38,6 +38,12 @@ public class CarritoCompraService {
     }
 
     public CarritoCompra buscarCarritoByUsuario(String id) {
-        return carritoRepository.findCarritoCompraByIdCarrito(id);
+        return carritoRepository.findCarritoCompraByIdUsuario(id);
+    }
+
+    @Transactional
+    public void limpiar(String idCarrito) {
+        CarritoCompra carritoCompra = buscarCarrito(idCarrito);
+        carritoCompra.getLibros().clear();
     }
 }
