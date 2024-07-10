@@ -1,57 +1,51 @@
 package com.grupo5.microservicioautenticacion.servicios;
 
-import com.grupo5.microservicioautenticacion.entidades.Usuario;
-import com.grupo5.microservicioautenticacion.repositorios.UsuarioRepository;
+import com.grupo5.microservicioautenticacion.config.RouteValidator;
+import com.grupo5.microservicioautenticacion.dto.RequestDto;
+import com.grupo5.microservicioautenticacion.entidades.AuthUser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 @Service
 public class JwtService {
+    private final RouteValidator routeValidator;
     @Value("${token.jwt}")
     private String secret;
-    private final UsuarioRepository usuarioRepository;
 
     @Autowired
-    public JwtService(UsuarioRepository usuarioRepository) {
-        this.usuarioRepository = usuarioRepository;
+    public JwtService(RouteValidator routeValidator) {
+        this.routeValidator = routeValidator;
     }
 
-    public boolean isTokenValid(String token, UserDetails user) {
-        String email = getEmailFromToken(token);
-        return (email.equals(user.getUsername()) && !isTokenExpired(token));
+    @PostConstruct
+    protected void init() {
+        secret = Base64.getEncoder().encodeToString(secret.getBytes());
     }
 
-    private boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
-    }
-
-    private Date extractExpiration(String token) {
-        return Jwts.parserBuilder().setSigningKey(getSignKey()).build().parseClaimsJws(token).getBody().getExpiration();
-    }
-
-    public String generateToken(Usuario usuario) {
+    public String createToken(AuthUser authUser) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("id", usuario.getId());
-        return createToken(claims, usuario);
-    }
-
-    private String createToken(Map<String, Object> claims, Usuario usuario) {
+        claims = Jwts.claims().setSubject(authUser.getEmail());
+        claims.put("id", authUser.getId());
+        claims.put("role", authUser.getRole());
+        Date now = new Date();
+        Date expiration = new Date(now.getTime() + 1000 * 60 * 60);
         return Jwts.builder()
                 .setClaims(claims)
-                .setSubject(usuario.getEmail())
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 30))
+                .setIssuedAt(now)
+                .setExpiration(expiration)
                 .signWith(getSignKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -61,11 +55,28 @@ public class JwtService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String getEmailFromToken(String token) {
+    public boolean validate(String token, RequestDto requestDto) {
+        try {
+            Jwts.parserBuilder().setSigningKey(getSignKey()).build().parseClaimsJws(token);
+        } catch (Exception e) {
+            return false;
+        }
+        if (!isAdmin(token) && routeValidator.isAdminPath(requestDto)) {
+            return false;
+        }
+        return true;
+    }
+
+    public String getEmail(String token) {
         try {
             return Jwts.parserBuilder().setSigningKey(getSignKey()).build().parseClaimsJws(token).getBody().getSubject();
         } catch (Exception e) {
             return "bad token";
         }
     }
+
+    private boolean isAdmin(String token) {
+        return Jwts.parserBuilder().setSigningKey(getSignKey()).build().parseClaimsJws(token).getBody().get("role").equals("ADMIN");
+    }
+
 }

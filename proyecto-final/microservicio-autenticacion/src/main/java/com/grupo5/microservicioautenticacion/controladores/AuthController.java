@@ -1,9 +1,11 @@
 package com.grupo5.microservicioautenticacion.controladores;
 
-import com.grupo5.microservicioautenticacion.dto.LoginRequest;
-import com.grupo5.microservicioautenticacion.entidades.Usuario;
-import com.grupo5.microservicioautenticacion.servicios.JwtService;
-import com.grupo5.microservicioautenticacion.servicios.UsuarioService;
+import com.grupo5.microservicioautenticacion.dto.AuthUserDto;
+import com.grupo5.microservicioautenticacion.dto.LoginDto;
+import com.grupo5.microservicioautenticacion.dto.RequestDto;
+import com.grupo5.microservicioautenticacion.dto.TokenDto;
+import com.grupo5.microservicioautenticacion.entidades.AuthUser;
+import com.grupo5.microservicioautenticacion.servicios.AuthUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,42 +15,34 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AuthController {
 
-
-    private final UsuarioService usuarioService;
-    private final JwtService jwtService;
-
-//    @PostMapping("/login")
-//    public ResponseEntity<String> login(@RequestParam String email, @RequestParam String password) {
-//        System.out.println(email + " " + password);
-//        String token = userService.login(email, password);
-//        if (token == null) {
-//            return ResponseEntity.badRequest().body("Usuario o contraseña incorrectos");
-//        }
-//        return ResponseEntity.ok(token);
-//    }
-//
-//    @GetMapping("/validate")
-//    public ResponseEntity<String> validate(@RequestParam String token) {
-//        String validToken = userService.validate(token);
-//        if (validToken == null) {
-//            return ResponseEntity.badRequest().body("Invalid token");
-//        }
-//        return ResponseEntity.ok(validToken);
-//    }
-
-    @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody Usuario usuario) {
-        usuarioService.save(usuario);
-        String token = jwtService.generateToken(usuario);
-        return ResponseEntity.ok("Token:" + token);
-    }
+    private final AuthUserService authUserService;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest request) {
-        String token = usuarioService.login(request.getEmail(), request.getPassword());
-        if (token == null) {
-            return ResponseEntity.badRequest().body("Usuario o contraseña incorrectos");
+    public ResponseEntity<TokenDto> login(@RequestBody LoginDto dto) {
+        TokenDto tokenDto = authUserService.login(dto);
+        if (tokenDto == null) {
+            return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok("Token:" + token);
+        return ResponseEntity.ok(tokenDto);
     }
+
+    @PostMapping("/validate")
+    public ResponseEntity<TokenDto> validate(@RequestParam String token, @RequestBody RequestDto requestDto) {
+        TokenDto tokenDto = authUserService.validate(token, requestDto);
+        if (tokenDto == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(tokenDto);
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<AuthUser> create(@RequestBody AuthUserDto dto) {
+        dto.setRole("USER");
+        AuthUser authUser = authUserService.save(dto);
+        if (authUser == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(authUser);
+    }
+
 }
