@@ -6,8 +6,23 @@
     <title>Compras Realizadas</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200&display=swap');
+        body {
+            font-family: 'Manrope', sans-serif;
+            background:#eee;
+        }
+        .size span {
+            font-size: 11px;
+        }
+        .color span {
+            font-size: 11px;
+        }
+    </style>
 </head>
 <body>
+
 <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
     <div class="container-fluid">
         <a class="navbar-brand" href="/catalogo/listar">G5books</a>
@@ -58,7 +73,7 @@
                     <th>ID trasacción</th>
                     <th>Cantidad articulos</th>
                     <th>Fecha</th>
-                    <th>Monto(RD$)</th>
+                    <th>Monto Total(RD$)</th>
                     <th>Estatus de Pago</th>
                 </tr>
                 </thead>
@@ -68,7 +83,7 @@
                     <td>${c.transaccion}</td>
                     <td>${c.libros.size()}</td>
                     <td>${c.fecha}</td>
-                    <td>${c.montoCompra}</td>
+                    <td>${c.montoCompra + c.montoEnvio + c.montoManejo + c.montoFee}</td>
                     <td>${c.estatusPago}</td>
                 </tr>
                 </#list>
