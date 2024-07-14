@@ -23,11 +23,14 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-freemarker'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'com.google.code.gson:gson:2.9.1'
-	//implementation 'org.springframework.cloud:spring-cloud-starter-config'
-	//implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+	implementation 'org.springframework.cloud:spring-cloud-starter-config'
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 	//librería log ELK
 	//implementation 'net.logstash.logback:logstash-logback-encoder:6.4'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
 }
 
 dependencyManagement {

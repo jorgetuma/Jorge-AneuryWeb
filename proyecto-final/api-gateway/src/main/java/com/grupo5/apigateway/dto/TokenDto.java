@@ -7,4 +7,8 @@ import lombok.*;
 @Data
 public class TokenDto {
     private String token;
+
+    public boolean isValid() {
+        return getToken() != null && !getToken().isEmpty();
+    }
 }

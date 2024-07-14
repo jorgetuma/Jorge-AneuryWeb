@@ -4,6 +4,8 @@ import com.grupo5.apigateway.dto.RequestDto;
 import com.grupo5.apigateway.dto.TokenDto;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
+import org.springframework.core.io.buffer.DataBuffer;
+import org.springframework.core.io.buffer.DataBufferFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpResponse;
@@ -26,31 +28,44 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
     public GatewayFilter apply(Config config) {
         return (((exchange, chain) -> {
             if (!exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
-                return onError(exchange, HttpStatus.BAD_REQUEST);
+                return onError(exchange, HttpStatus.BAD_REQUEST, "Missing Authorization Header");
             }
             String tokenHeader = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
             assert tokenHeader != null;
             String [] chunks = tokenHeader.split(" ");
             if (chunks.length != 2 || !chunks[0].equals("Bearer")) {
-                return onError(exchange, HttpStatus.UNAUTHORIZED);
+                return onError(exchange, HttpStatus.UNAUTHORIZED, "Invalid Authorization Header");
             }
-            return webClient.build()
-                    .post()
-                    .uri("http://microservicio-autenticacion/auth/validate?token=" + chunks[1])
-                    .bodyValue(new RequestDto(exchange.getRequest().getPath().toString(), exchange.getRequest().getMethod().toString()))
-                    .retrieve().bodyToMono(TokenDto.class)
-                    .map(t -> {
-                        t.getToken();
-                        return exchange;
-                    }).flatMap(chain::filter);
+            return validateToken(chunks[1], exchange)
+                    .flatMap(valid -> {
+                        if (valid) {
+                            return chain.filter(exchange);
+                        } else {
+                            return onError(exchange, HttpStatus.UNAUTHORIZED, "Invalid Token");
+                        }
+                    });
         }));
     }
 
-    public Mono<Void> onError(ServerWebExchange exchange, HttpStatus status) {
+    private Mono<Boolean> validateToken(String token, ServerWebExchange exchange) {
+        return webClient.build()
+                .post()
+                .uri("http://microservicio-autenticacion/auth/validate?token=" + token)
+                .bodyValue(new RequestDto(exchange.getRequest().getPath().toString(), exchange.getRequest().getMethod().toString()))
+                .retrieve()
+                .bodyToMono(TokenDto.class)
+                .map(TokenDto::isValid) // Suponiendo que TokenDto tiene un método isValid()
+                .onErrorReturn(false);  // En caso de error, retornamos false para indicar que la validación falló
+    }
+
+    public Mono<Void> onError(ServerWebExchange exchange, HttpStatus status, String message) {
         ServerHttpResponse response = exchange.getResponse();
         response.setStatusCode(status);
-        return response.setComplete();
+        DataBufferFactory bufferFactory = response.bufferFactory();
+        DataBuffer buffer = bufferFactory.wrap(message.getBytes());
+        return response.writeWith(Mono.just(buffer));
     }
+
 
     public static class Config{}
 }

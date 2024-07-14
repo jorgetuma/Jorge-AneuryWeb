@@ -28,6 +28,12 @@ public class ApiGatewayApplication {
 				.route("microservicio-catalogo", r -> r.path("/catalogo/**")
 						.filters(f -> f.filter(authFilter.apply(new AuthFilter.Config())))
 						.uri("lb://microservicio-catalogo"))
+				.route("gestion-libros", r -> r.path("/login")
+//						.filters(f -> f.filter(authFilter.apply(new AuthFilter.Config())))
+						.uri("lb://gestion-libros"))
+				.route("gestion-libros", r -> r.path("/admin/**")
+						.filters(f -> f.filter(authFilter.apply(new AuthFilter.Config())))
+						.uri("lb://gestion-libros"))
 				.build();
 	}
 
