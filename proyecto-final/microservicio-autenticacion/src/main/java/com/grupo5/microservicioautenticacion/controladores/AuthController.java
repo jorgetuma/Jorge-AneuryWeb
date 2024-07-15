@@ -6,6 +6,7 @@ import com.grupo5.microservicioautenticacion.dto.RequestDto;
 import com.grupo5.microservicioautenticacion.dto.TokenDto;
 import com.grupo5.microservicioautenticacion.entidades.AuthUser;
 import com.grupo5.microservicioautenticacion.servicios.AuthUserService;
+import com.grupo5.microservicioautenticacion.servicios.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final AuthUserService authUserService;
+    private final JwtService jwtService;
 
     @PostMapping("/login")
     public ResponseEntity<TokenDto> login(@RequestBody LoginDto dto) {
@@ -36,13 +38,14 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<AuthUser> create(@RequestBody AuthUserDto dto) {
+    public ResponseEntity<TokenDto> create(@RequestBody AuthUserDto dto) {
         dto.setRole("USER");
         AuthUser authUser = authUserService.save(dto);
         if (authUser == null) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(authUser);
+        TokenDto tokenDto = new TokenDto(jwtService.createToken(authUser));
+        return ResponseEntity.ok(tokenDto);
     }
 
 }

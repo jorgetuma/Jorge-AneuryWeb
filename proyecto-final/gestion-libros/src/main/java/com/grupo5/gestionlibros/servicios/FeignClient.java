@@ -1,5 +1,6 @@
 package com.grupo5.gestionlibros.servicios;
 
+import com.grupo5.gestionlibros.dto.AuthUserDto;
 import com.grupo5.gestionlibros.dto.LoginDto;
 import com.grupo5.gestionlibros.dto.RequestDto;
 import com.grupo5.gestionlibros.dto.TokenDto;
@@ -15,4 +16,7 @@ public interface FeignClient {
 
     @PostMapping("/auth/validate")
     public TokenDto validate(@RequestParam String token, @RequestBody RequestDto requestDto);
+
+    @PostMapping("/auth/register")
+    public TokenDto register(@RequestBody AuthUserDto dto);
 }

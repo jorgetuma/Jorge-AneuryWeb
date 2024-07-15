@@ -1,57 +1,55 @@
-<!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
+<#include "layout.ftl">
+
 <head>
-    <meta http-equiv="Content-Type" content="text/html"; charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Ver reseñas</title>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <style>
+        body{
+            background-color: #edf1f5;
+            margin-top:20px;
+        }
+        .card {
+            margin-bottom: 30px;
+        }
+        .card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            word-wrap: break-word;
+            background-color: #fff;
+            background-clip: border-box;
+            border: 0 solid transparent;
+            border-radius: 0;
+        }
+        .card .card-subtitle {
+            font-weight: 300;
+            margin-bottom: 10px;
+            color: #8898aa;
+        }
+        .table-product.table-striped tbody tr:nth-of-type(odd) {
+            background-color: #f3f8fa!important
+        }
+        .table-product td{
+            border-top: 0px solid #dee2e6 !important;
+            color: #728299!important;
+        }
+        .button{display: inline-block;background: rgb(14, 228, 117);border-radius: 5px;height: 48px;-webkit-transition: all 200ms ease;-moz-transition: all 200ms ease;-ms-transition: all 200ms ease;-o-transition: all 200ms ease;transition: all 200ms ease}
+    </style>
+
 </head>
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
 <body>
-<style>
-    body{
-        background-color: #edf1f5;
-        margin-top:20px;
-    }
-    .card {
-        margin-bottom: 30px;
-    }
-    .card {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        min-width: 0;
-        word-wrap: break-word;
-        background-color: #fff;
-        background-clip: border-box;
-        border: 0 solid transparent;
-        border-radius: 0;
-    }
-    .card .card-subtitle {
-        font-weight: 300;
-        margin-bottom: 10px;
-        color: #8898aa;
-    }
-    .table-product.table-striped tbody tr:nth-of-type(odd) {
-        background-color: #f3f8fa!important
-    }
-    .table-product td{
-        border-top: 0px solid #dee2e6 !important;
-        color: #728299!important;
-    }
-    .button{display: inline-block;background: rgb(14, 228, 117);border-radius: 5px;height: 48px;-webkit-transition: all 200ms ease;-moz-transition: all 200ms ease;-ms-transition: all 200ms ease;-o-transition: all 200ms ease;transition: all 200ms ease}
-</style>
 
 <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/catalogo/listar">G5books</a>
+        <a class="navbar-brand" href="/">G5books</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav me-auto mb-2 mb-md-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/catalogo/listar">comprar</a>
+                    <a class="nav-link active" aria-current="page" href="/">comprar</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">carrito de compras</a>
@@ -148,6 +146,4 @@
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
-</html>

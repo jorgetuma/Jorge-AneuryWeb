@@ -1,26 +1,16 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
-</head>
+<#include "layout.ftl">
 <body>
 
 <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/catalogo/listar">G5books</a>
+        <a class="navbar-brand" href="/">G5books</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav me-auto mb-2 mb-md-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/catalogo/listar">Comprar</a>
+                    <a class="nav-link active" aria-current="page" href="/">Comprar</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Carrito de compras</a>
@@ -59,6 +49,7 @@
     <a href="#"><button type="button" class="btn btn-primary">Usuarios y perfiles</button></a>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
 <script>
 
     const datosCompras = [${compras}];
@@ -103,4 +94,3 @@
 </script>
 
 </body>
-</html>

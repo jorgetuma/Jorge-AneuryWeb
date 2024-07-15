@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
-@RequestMapping("/catalogo")
+@RequestMapping("/")
 public class CatalogoController {
 
     private final CatalogoService catalogoService;
@@ -22,7 +22,7 @@ public class CatalogoController {
         this.catalogoService = catalogoService;
     }
 
-    @GetMapping("/listar")
+    @GetMapping("/")
     public String listarCatalago(Model model) {
         List<Libro> libros = catalogoService.listar();
         model.addAttribute("libros",libros);
