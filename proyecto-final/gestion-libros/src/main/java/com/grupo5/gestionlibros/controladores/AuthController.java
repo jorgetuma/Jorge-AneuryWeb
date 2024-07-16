@@ -8,15 +8,16 @@ import feign.FeignException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/")
+@AllArgsConstructor
 public class AuthController {
 
-    @Autowired
     private FeignClient feignClient;
 
     @GetMapping("/login")
@@ -56,9 +57,12 @@ public class AuthController {
                 cookie.setHttpOnly(true);
                 cookie.setPath("/");
                 response.addCookie(cookie);
+                System.out.println(dto.toString());
+                feignClient.notificarRegistro(dto.getEmail(), dto.getName());
                 return "redirect:/";
             }
         } catch (FeignException.FeignClientException e) {
+            System.out.println(e.getMessage());
             return "register";
         }
         return "register";

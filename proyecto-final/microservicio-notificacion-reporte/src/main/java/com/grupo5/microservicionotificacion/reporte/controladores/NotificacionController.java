@@ -18,7 +18,7 @@ public class NotificacionController {
 
     @RequestMapping("/notificar-registro/{correo}&{username}")
     public void notificarRegistro(@PathVariable("correo") String correo,@PathVariable("username") String userName) {
-        String mensaje = "Este correo confirma la creación de su perfil de usuario de nombre:" + userName;
+        String mensaje = "Este correo confirma la creación de su perfil de usuario de nombre: " + userName;
         notificacionService.enviar(correo,mensaje);
     }
 }

@@ -30,7 +30,7 @@ public class NotificacionService {
         Notificacion notificacion = new Notificacion(correo,mensaje);
         //Configurando el servidor.
         Mailer mailer = MailerBuilder
-                .withSMTPServer("host.correo", 587, "", "")
+                .withSMTPServer("smtp.gmail.com", 587, "eaneury@gmail.com", "wdiw qudf fpwq znvq")
                 .withTransportStrategy(TransportStrategy.SMTP_TLS)
                 .withSessionTimeout(10 * 1000)
                 .clearEmailAddressCriteria() // turns off email validation
@@ -42,19 +42,19 @@ public class NotificacionService {
         String html = body(
                 h1("Gestion de libros grupo 5"),
                 h2(mensaje),
-                h2("Link a la app: " + a("http://localhost:8080/"))
+                h2("Link a la app: ").with(a("http://localhost:8181/").withHref("http://localhost:8181/"))
         ).render();
 
         //Configurando el Correo para ser enviado.
         //https://generator.email/qkamal@alpicley.gq
         Email email = EmailBuilder.startingBlank()
-                .from("noreply@grupo5.com")
+                .from("axeg0001@ce.pucmm.edu.do")
                 .to("correo", correo)
-                .withReplyTo("Soporte", "soporte@grupo5.com")
-                .withSubject("Confirmacion registro del proyectio final grupo 5 - "+ new SimpleDateFormat("dd/MM/yyyy hh:mm:ss").format(new Date()))
+//                .withReplyTo("Soporte", "soporte@grupo5.com")
+                .withSubject("Confirmacion registro del proyecto final grupo 5 - "+ new SimpleDateFormat("dd/MM/yyyy hh:mm:ss").format(new Date()))
                 .withHTMLText(html)
                 .withReturnReceiptTo()
-                .withBounceTo("bounce@grupo5")
+//                .withBounceTo("bounce@grupo5")
                 .buildEmail();
 
         //Enviando el mensaje:
