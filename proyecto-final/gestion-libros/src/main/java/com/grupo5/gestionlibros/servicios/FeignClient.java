@@ -32,4 +32,16 @@ public interface FeignClient {
 
     @GetMapping("/notificacion/notificar-registro/{correo}&{username}")
     public void notificarRegistro(@PathVariable("correo") String correo, @PathVariable("username") String userName);
+
+    @RequestMapping("/carrito/crear/{idusuario}")
+    public String crearCarrito(@RequestHeader("Authorization") String bearerToken, @PathVariable("idusuario") String idUsuario);
+
+    @RequestMapping("/carrito/buscar/{id}")
+    public CarritoCompra buscarCarrito(@RequestHeader("Authorization") String bearerToken, @PathVariable("id") String id);
+
+    @RequestMapping("/carrito/agregar/{idlibro}&{idcarrito}")
+    public void agregar(@RequestHeader("Authorization") String bearerToken, @PathVariable("idlibro") String idlibro,@PathVariable("idcarrito") String idcarrito);
+
+    @RequestMapping("/carrito//buscar-usuario/{idusuario}")
+    public CarritoCompra buscarByusuario(@RequestHeader("Authorization") String bearerToken, @PathVariable("idusuario") int idusuario);
 }

@@ -10,10 +10,10 @@ public class CarritoCompra {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String idCarrito;
-    private String idUsuario;
+    private int idUsuario;
 
     @ElementCollection
-    @CollectionTable(name = "id-libro")
+    @CollectionTable(name = "id-libros")
     @Column(name = "idlibro")
     private List<String> libros;
 
@@ -21,7 +21,7 @@ public class CarritoCompra {
 
     }
 
-    public CarritoCompra(String idUsuario) {
+    public CarritoCompra(int idUsuario) {
         this.idUsuario = idUsuario;
         this.libros = new ArrayList<>();
     }
@@ -34,11 +34,11 @@ public class CarritoCompra {
         this.idCarrito = idCarrito;
     }
 
-    public String getIdUsuario() {
+    public int getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(String idUsuario) {
+    public void setIdUsuario(int idUsuario) {
         this.idUsuario = idUsuario;
     }
 

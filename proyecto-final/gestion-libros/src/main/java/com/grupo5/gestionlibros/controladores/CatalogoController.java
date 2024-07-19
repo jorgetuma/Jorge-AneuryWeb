@@ -2,6 +2,9 @@ package com.grupo5.gestionlibros.controladores;
 
 import com.grupo5.gestionlibros.dto.Libro;
 import com.grupo5.gestionlibros.servicios.CatalogoService;
+import com.grupo5.gestionlibros.servicios.JwtService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,16 +20,24 @@ import java.util.List;
 public class CatalogoController {
 
     private final CatalogoService catalogoService;
+    private final JwtService jwtService;
 
     @Autowired
-    public CatalogoController(CatalogoService catalogoService) {
+    public CatalogoController(CatalogoService catalogoService, JwtService jwtService) {
         this.catalogoService = catalogoService;
+        this.jwtService = jwtService;
     }
 
     @GetMapping("/")
-    public String listarCatalago(Model model) {
+    public String listarCatalago(HttpServletRequest request, Model model) {
+        String token = getTokenFromCookies(request);
+        if (token == null) {
+            return "403";
+        }
+        int id = jwtService.getId(token);
         List<Libro> libros = catalogoService.listar();
         model.addAttribute("libros",libros);
+        model.addAttribute("userId",id);
         return "/libros";
     }
 
@@ -55,5 +66,17 @@ public class CatalogoController {
         List<Libro> libros = catalogoService.listarByGenero(genero);
         model.addAttribute("libros",libros);
         return "/libros";
+    }
+
+    private String getTokenFromCookies(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("Authorization".equals(cookie.getName())) {
+                    return cookie.getValue();
+                }
+            }
+        }
+        return null;
     }
 }

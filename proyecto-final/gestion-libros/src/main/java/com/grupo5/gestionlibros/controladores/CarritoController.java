@@ -11,9 +11,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/carrito")
@@ -44,9 +47,18 @@ public class CarritoController {
     }
 
     @GetMapping("/agregar/{idLibro}&{idCarrito}&{user}")
-    public String agregar(@PathVariable String idLibro,@PathVariable String idCarrito,@PathVariable String user) {
-        carritoCompraService.agregar(idLibro,idCarrito);
-        return "redirect:/carrito/" + user;
+    @ResponseBody
+    public Map<String, String> agregar(@PathVariable String idLibro,@PathVariable String idCarrito,@PathVariable String user) {
+//        carritoCompraService.agregar(idLibro,idCarrito);
+//        return "redirect:/carrito/" + user;
+        Map<String, String> response = new HashMap<>();
+        try {
+            carritoCompraService.agregar(idLibro, idCarrito);
+            response.put("message", "Libro agregado al carrito exitosamente.");
+        } catch (Exception e) {
+            response.put("message", "Error al agregar el libro al carrito.");
+        }
+        return response;
     }
 
     @GetMapping("/quitar/{idLibro}&{idCarrito}&{user}")

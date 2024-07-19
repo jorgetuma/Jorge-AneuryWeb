@@ -72,8 +72,8 @@
                                     <input id="quantity-${l.id}" name="quantity-${l.id}" type="number" value="1" min="1" class="form-control w-50 mx-auto">
                                 </div>
                                 <div class="col">
-                                    <a href="/carrito/agregar/${l.id}&5bbcff04-31ab-4efc-9c2c-79ab1e3e1e21&1" class="btn btn-warning pay-button">Agregar al carrito</a>
-<#--                                    <input type="button" value="Agregar al carrito" class="btn btn-warning pay-button" onclick="addToCart('${l.id}')">-->
+<#--                                    <a href="/carrito/agregar/${l.id}&5bbcff04-31ab-4efc-9c2c-79ab1e3e1e21&1" class="btn btn-warning pay-button">Agregar al carrito</a>-->
+                                    <input type="button" value="Agregar al carrito" class="btn btn-warning pay-button" onclick="addToCart('${l.id}')">
                                 </div>
                             </div>
                         </div>
@@ -149,24 +149,20 @@
     // }
 
     function addToCart(bookId) {
-        console.log(bookId);
-        const userId = '1';  // Replace with actual user ID retrieval logic
+        // console.log(bookId);
+        const userId = ${userId};  // Replace with actual user ID retrieval logic
         // const token = getTokenFromCookies();
         const quantity = 1
 
         $.ajax({
             url: '/carrito/buscar-usuario/' + userId,
-            type: 'GET',
-            // headers: {
-            //     'Authorization': 'Bearer ' + token
-            // },
+            type: 'POST',
             success: function(carrito) {
                 // If cart exists, add the book to it
-                console.log(carrito);
-                addBookToCart(carrito.id, bookId, quantity);
+                addBookToCart(carrito.idCarrito, bookId, quantity);
             },
-            error: function() {
-                console.log("lkdkmfds");
+            error: function(e) {
+                console.log(e);
                 // If cart does not exist, create it first
                 $.ajax({
                     url: '/carrito/crear/'+ userId,
@@ -178,7 +174,7 @@
                         addBookToCart(carritoId, bookId, quantity);
                     },
                     error: function() {
-                        alert("Failed to create cart. Please try again.");
+                        alert("No se pudo agregar el libro al carrito, inténtalo de nuevo.");
                     }
                 });
             }
@@ -197,10 +193,10 @@
                 quantity: quantity
             },
             success: function() {
-                alert("Book added to cart successfully!");
+                alert("Libro agregado al carrito con éxito!");
             },
             error: function() {
-                alert("Failed to add book to cart. Please try again.");
+                alert("No se pudo agregar el libro al carrito, inténtalo de nuevo.");
             }
         });
     }

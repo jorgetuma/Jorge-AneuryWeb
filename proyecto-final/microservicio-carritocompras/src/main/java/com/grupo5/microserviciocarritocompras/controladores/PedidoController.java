@@ -41,13 +41,13 @@ public class PedidoController {
     }
 
     @RequestMapping("/listar-usuario/{id}")
-    public List<Pedido> listarByUsuario(@PathVariable("id") String id) {return pedidoService.listarByUsuario(id);}
+    public List<Pedido> listarByUsuario(@PathVariable("id") int id) {return pedidoService.listarByUsuario(id);}
 
     @RequestMapping("/listar-fechactual")
     public List<Pedido> listarByFecha() {return pedidoService.listarByFecha(new SimpleDateFormat("dd/MM/yyyy hh:mm:ss").format(new Date()));}
 
     @PostMapping("/procesar/{iduser}")
-    public void procesarPedido(@PathVariable("iduser") String iduser, @RequestBody Map<String,String> params) {
+    public void procesarPedido(@PathVariable("iduser") int iduser, @RequestBody Map<String,String> params) {
         CarritoCompra carritoCompra = carritoCompraService.buscarCarritoByUsuario(iduser);
         pedidoService.insertar(iduser,carritoCompra,params);
     }

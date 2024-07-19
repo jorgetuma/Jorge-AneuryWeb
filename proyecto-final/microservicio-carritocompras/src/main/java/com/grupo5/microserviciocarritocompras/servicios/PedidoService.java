@@ -38,7 +38,7 @@ public class PedidoService {
         return pedidoRepository.findPedidoByIdPedido(id);
     }
 
-    public void insertar(String user, CarritoCompra carritoCompra, Map<String,String> params) {
+    public void insertar(int user, CarritoCompra carritoCompra, Map<String,String> params) {
         Pedido pedido = new Pedido();
         List<String> libros = carritoCompra.getLibros();
         pedido.setLibros(libros);
@@ -71,7 +71,7 @@ public class PedidoService {
         pedido.setPendiente(false);
     }
 
-    public List<Pedido> listarByUsuario(String id) {
+    public List<Pedido> listarByUsuario(int id) {
         return pedidoRepository.findAllByIdUser(id);
     }
 }

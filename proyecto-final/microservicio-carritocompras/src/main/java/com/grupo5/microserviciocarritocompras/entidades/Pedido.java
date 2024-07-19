@@ -10,7 +10,7 @@ public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String idPedido;
-    private String idUser;
+    private int idUser;
    private String nombre;
     @ElementCollection
     @CollectionTable(name = "id-libro")
@@ -49,11 +49,11 @@ public class Pedido {
         this.idPedido = idPedido;
     }
 
-    public String getUser() {
+    public int getUser() {
         return idUser;
     }
 
-    public void setUser(String idUser) {
+    public void setUser(int idUser) {
         this.idUser = idUser;
     }
 
@@ -89,11 +89,11 @@ public class Pedido {
         this.fecha = fecha;
     }
 
-    public String getIdUser() {
+    public int getIdUser() {
         return idUser;
     }
 
-    public void setIdUser(String idUser) {
+    public void setIdUser(int idUser) {
         this.idUser = idUser;
     }
 

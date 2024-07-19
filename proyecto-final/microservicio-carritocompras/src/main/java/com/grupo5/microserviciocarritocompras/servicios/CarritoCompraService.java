@@ -15,7 +15,7 @@ public class CarritoCompraService {
         this.carritoRepository = carritoRepository;
     }
 
-    public String crearCarrito(String idUsuario) {
+    public String crearCarrito(int idUsuario) {
         CarritoCompra carritoCompra = new CarritoCompra(idUsuario);
         carritoRepository.save(carritoCompra);
         return carritoCompra.getIdCarrito();
@@ -28,6 +28,8 @@ public class CarritoCompraService {
     @Transactional
     public void agregar(String idLibro,String idCarrito) {
         CarritoCompra carritoCompra = carritoRepository.findCarritoCompraByIdCarrito(idCarrito);
+        System.out.println(carritoCompra.getIdCarrito());
+        System.out.println(carritoCompra.getLibros().toString());
         carritoCompra.getLibros().add(idLibro);
     }
 
@@ -37,7 +39,7 @@ public class CarritoCompraService {
         carritoCompra.getLibros().remove(idLibro);
     }
 
-    public CarritoCompra buscarCarritoByUsuario(String id) {
+    public CarritoCompra buscarCarritoByUsuario(int id) {
         return carritoRepository.findCarritoCompraByIdUsuario(id);
     }
 
