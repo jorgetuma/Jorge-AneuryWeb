@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @org.springframework.cloud.openfeign.FeignClient(name = "api-gateway", url = "http://localhost:8080")
 public interface FeignClient {
@@ -42,6 +43,9 @@ public interface FeignClient {
     @RequestMapping("/carrito/agregar/{idlibro}&{idcarrito}")
     public void agregar(@RequestHeader("Authorization") String bearerToken, @PathVariable("idlibro") String idlibro,@PathVariable("idcarrito") String idcarrito);
 
-    @RequestMapping("/carrito//buscar-usuario/{idusuario}")
+    @RequestMapping("/carrito/buscar-usuario/{idusuario}")
     public CarritoCompra buscarByusuario(@RequestHeader("Authorization") String bearerToken, @PathVariable("idusuario") int idusuario);
+
+    @PostMapping("/pedido/procesar/{iduser}")
+    public void procesarPedido(@RequestHeader("Authorization") String bearerToken, @PathVariable("iduser") int iduser, @RequestBody Map<String,String> params);
 }

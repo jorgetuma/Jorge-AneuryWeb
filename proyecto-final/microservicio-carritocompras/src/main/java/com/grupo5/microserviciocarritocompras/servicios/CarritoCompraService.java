@@ -46,6 +46,9 @@ public class CarritoCompraService {
     @Transactional
     public void limpiar(String idCarrito) {
         CarritoCompra carritoCompra = buscarCarrito(idCarrito);
-        carritoCompra.getLibros().clear();
+        if (carritoCompra != null) {
+            carritoRepository.delete(carritoCompra);
+        }
+//        carritoCompra.getLibros().clear();
     }
 }

@@ -44,7 +44,7 @@ public class ApiGatewayApplication {
 						.filters(f -> f.filter(authFilter.apply(new AuthFilter.Config())))
 						.uri("lb://gestion-libros"))
 
-				.route("microservicio-carritocompras", r -> r.path("/carrito/**")
+				.route("microservicio-carritocompras", r -> r.path("/carrito/**", "/pedido/**")
 						.filters(f -> f.filter(authFilter.apply(new AuthFilter.Config())))
 						.uri("lb://microservicio-carritocompras"))
 				.build();

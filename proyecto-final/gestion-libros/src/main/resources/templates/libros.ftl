@@ -12,7 +12,7 @@
                     <a class="nav-link active" aria-current="page" href="/">comprar</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">carrito de compras</a>
+                    <a class="nav-link" href="carrito/${userId}">carrito de compras</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/compras/listar/userid">Compras realizadas</a>

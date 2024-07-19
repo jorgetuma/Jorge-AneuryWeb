@@ -38,7 +38,7 @@ public class PedidoService {
         return pedidoRepository.findPedidoByIdPedido(id);
     }
 
-    public void insertar(int user, CarritoCompra carritoCompra, Map<String,String> params) {
+    public Pedido insertar(int user, CarritoCompra carritoCompra, Map<String,String> params) {
         Pedido pedido = new Pedido();
         List<String> libros = carritoCompra.getLibros();
         pedido.setLibros(libros);
@@ -62,7 +62,7 @@ public class PedidoService {
         pedido.setZip(params.get("address_zip"));
         pedido.setEstado(params.get("address_state"));
         pedido.setDireccion(params.get("address_name"));
-        pedidoRepository.save(pedido);
+        return pedidoRepository.save(pedido);
     }
 
     @Transactional

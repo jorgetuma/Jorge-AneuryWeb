@@ -21,6 +21,6 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authInterceptor)
                 .addPathPatterns("/**") // Define las rutas que requieren autenticación
-                .excludePathPatterns("/login", "/register", "/logout");
+                .excludePathPatterns("/login", "/register", "/logout", "/carrito/procesarCompraPaypal");
     }
 }
