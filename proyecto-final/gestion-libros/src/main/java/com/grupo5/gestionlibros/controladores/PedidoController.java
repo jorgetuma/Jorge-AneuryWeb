@@ -25,4 +25,11 @@ public class PedidoController {
         model.addAttribute("compras",compras);
         return "/compras";
     }
+
+    @GetMapping("/ver/{id}")
+    public String visualizar(Model model, @PathVariable("id") String id) {
+        Pedido pedido = pedidoService.buscar(id);
+        model.addAttribute("pedido",pedido);
+        return "/facturaview";
+    }
 }

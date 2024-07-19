@@ -78,4 +78,18 @@ public class PedidoService {
         return pedidos;
     }
 
+    public Pedido buscar(String id) {
+        Pedido pedido;
+
+        RestClient client = RestClient.create(); // Cliente HTTP para llamar a las API de otros micro-servicios
+        String pedidoJson = client.get()
+                .uri( apiUrl +"/buscar/" + id)
+                .retrieve()
+                .body(String.class);
+
+        pedido = gson.fromJson(pedidoJson,Pedido.class);
+
+        return pedido;
+    }
+
 }
