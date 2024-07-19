@@ -93,6 +93,30 @@
             </div>
 
             <#list libros as l>
+<#--                <div class="card mb-3">-->
+<#--                    <div class="card-body">-->
+<#--                        <div class="container text-center">-->
+<#--                            <div class="row">-->
+<#--                                <div class="col">-->
+<#--                                    <span class="font-weight-bold"><a href="/review/ver/${l.id}">${l.titulo}</a></span>&ndash;&gt;-->
+<#--                                    <div class="size mr-5"><span class="text-grey">Precio (RD$):</span><span class="font-weight-bold">&nbsp;${l.precio}</span></div>-->
+<#--                                    <div class="size mr-5"><span class="text-grey">Autor:</span><span class="font-weight-bold">&nbsp;${l.autor}</span></div>-->
+<#--                                    <div class="size mr-5"><span class="text-grey">Género:</span><span class="font-weight-bold">&nbsp;${l.genero}</span></div>-->
+<#--                                    <div class="size mr-5"><span class="text-grey">Editorial:</span><span class="font-weight-bold">&nbsp;${l.editorial}</span></div>-->
+<#--                                </div>-->
+<#--                                <div class="col">-->
+<#--                                    Column-->
+<#--                                </div>-->
+<#--                                <div class="col">-->
+<#--                                    Column-->
+<#--                                </div>-->
+<#--                            </div>-->
+<#--                        </div>-->
+<#--                        <h5 class="card-title">Card title</h5>-->
+<#--                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>-->
+<#--                        <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>-->
+<#--                    </div>-->
+<#--                </div>-->
                 <form method="post" action="#">
                     <div  class="d-flex flex-row justify-content-between align-items-center p-2 bg-white mt-4 px-3 rounded">
                         <div class="product-details">

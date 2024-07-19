@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -29,22 +30,28 @@ public class CatalogoController {
         return "/libros";
     }
 
-    @GetMapping("/listar-titulo/{titulo}")
+    @GetMapping("catalogo/listar-titulo/{titulo}")
     public String listarCatalagoBytitulo(Model model, @PathVariable("titulo") String titulo) {
         List<Libro> libros = catalogoService.listarByTitulo(titulo);
         model.addAttribute("libros",libros);
         return "/libros";
     }
 
-    @GetMapping("/listar-autor/{autor}")
+    @GetMapping("catalogo/listar-autor/{autor}")
     public String listarCatalagoByAutor(Model model, @PathVariable("autor") String autor) {
+        if (autor == null || autor.isEmpty()) {
+            return "/libros";
+        }
         List<Libro> libros = catalogoService.listarByAutor(autor);
         model.addAttribute("libros",libros);
         return "/libros";
     }
 
-    @GetMapping("/listar-genero/{genero}")
+    @GetMapping("catalogo/listar-genero/{genero}")
     public String listarCatalagoByGenero(Model model, @PathVariable("genero") String genero) {
+        if (genero == null || genero.isEmpty()) {
+            return "/libros";
+        }
         List<Libro> libros = catalogoService.listarByGenero(genero);
         model.addAttribute("libros",libros);
         return "/libros";

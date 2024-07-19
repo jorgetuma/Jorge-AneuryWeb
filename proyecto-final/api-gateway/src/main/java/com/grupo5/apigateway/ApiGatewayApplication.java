@@ -25,11 +25,18 @@ public class ApiGatewayApplication {
 		return builder.routes()
 				.route("microservicio-autenticacion", r -> r.path("/auth/**")
 						.uri("lb://microservicio-autenticacion"))
+
+				.route("microservicio-autenticacion", r -> r.path("/users/**")
+						.filters(f -> f.filter(authFilter.apply(new AuthFilter.Config())))
+						.uri("lb://microservicio-autenticacion"))
+
 				.route("microservicio-notificacion-reporte", r -> r.path("/notificacion/**")
 						.uri("lb://microservicio-notificacion-reporte"))
+
 				.route("microservicio-catalogo", r -> r.path("/catalogo/**")
 						.filters(f -> f.filter(authFilter.apply(new AuthFilter.Config())))
 						.uri("lb://microservicio-catalogo"))
+
 				.route("gestion-libros", r -> r.path("/login")
 //						.filters(f -> f.filter(authFilter.apply(new AuthFilter.Config())))
 						.uri("lb://gestion-libros"))

@@ -1,15 +1,16 @@
 package com.grupo5.microservicioautenticacion.controladores;
 
-import com.grupo5.microservicioautenticacion.dto.AuthUserDto;
-import com.grupo5.microservicioautenticacion.dto.LoginDto;
-import com.grupo5.microservicioautenticacion.dto.RequestDto;
-import com.grupo5.microservicioautenticacion.dto.TokenDto;
+import com.grupo5.microservicioautenticacion.dto.*;
 import com.grupo5.microservicioautenticacion.entidades.AuthUser;
 import com.grupo5.microservicioautenticacion.servicios.AuthUserService;
 import com.grupo5.microservicioautenticacion.servicios.JwtService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth")

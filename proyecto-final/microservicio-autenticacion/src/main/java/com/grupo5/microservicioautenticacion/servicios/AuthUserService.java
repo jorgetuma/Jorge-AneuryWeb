@@ -1,16 +1,15 @@
 package com.grupo5.microservicioautenticacion.servicios;
 
-import com.grupo5.microservicioautenticacion.dto.AuthUserDto;
-import com.grupo5.microservicioautenticacion.dto.LoginDto;
-import com.grupo5.microservicioautenticacion.dto.RequestDto;
-import com.grupo5.microservicioautenticacion.dto.TokenDto;
+import com.grupo5.microservicioautenticacion.dto.*;
 import com.grupo5.microservicioautenticacion.entidades.AuthUser;
 import com.grupo5.microservicioautenticacion.repositorios.AuthUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AuthUserService {
@@ -63,4 +62,37 @@ public class AuthUserService {
         }
         return new TokenDto(token);
     }
+
+    public Optional<AuthUser> getById(int id) {
+        return authUserRepository.findById(id);
+    }
+
+    public List<UserDto> getAllUsers() {
+        List<AuthUser> users = authUserRepository.findAll();
+        return users.stream()
+                .map(user -> new UserDto(user.getId(), user.getName(), user.getEmail(), user.getRole()))
+                .collect(Collectors.toList());
+    }
+
+    public AuthUser update(int id, AuthUserDto dto) {
+        Optional<AuthUser> optionalAuthUser = authUserRepository.findById(id);
+        if (optionalAuthUser.isEmpty()) {
+            return null;
+        }
+        AuthUser authUser = optionalAuthUser.get();
+        authUser.setName(dto.getName());
+        authUser.setEmail(dto.getEmail());
+        authUser.setRole(dto.getRole());
+//        authUser.setPassword(passwordEncoder.encode(dto.getPassword()));
+        return authUserRepository.save(authUser);
+    }
+
+    public boolean delete(int id) {
+        if (authUserRepository.existsById(id)) {
+            authUserRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
 }

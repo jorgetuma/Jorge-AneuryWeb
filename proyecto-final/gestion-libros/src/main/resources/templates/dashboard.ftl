@@ -10,7 +10,7 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav me-auto mb-2 mb-md-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/">Comprar</a>
+                    <a class="nav-link" aria-current="page" href="/">Comprar</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Carrito de compras</a>
@@ -18,15 +18,14 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/compras/listar/userid">Compras realizadas</a>
                 </li>
-                <li class="nav-iterm" >
-                    <a class="nav-link" href="/admin/dashboard">Administrar</a>
+                <li class="nav-item" >
+                    <a class="nav-link active" href="/admin/dashboard">Administrar</a>
+                </li>
+                <li class="nav-item" >
+                    <a class="nav-link" href="/admin/users">Usuarios</a>
                 </li>
             </ul>
-            <form class="d-flex" role="search">
-                <button class="btn btn-outline-success" type="submit" formaction="#">Login</button>
-                <button class="btn btn-outline-success" type="submit" formaction="#">Registrarse</button>
-                <button class="btn btn-outline-success" type="submit" formaction="#">Cerrar sesión</button>
-            </form>
+            <a class="btn btn-outline-success" href="/logout">cerrar sesión</a>
         </div>
     </div>
 </nav>

@@ -1,10 +1,10 @@
 package com.grupo5.gestionlibros.servicios;
 
-import com.grupo5.gestionlibros.dto.AuthUserDto;
-import com.grupo5.gestionlibros.dto.LoginDto;
-import com.grupo5.gestionlibros.dto.RequestDto;
-import com.grupo5.gestionlibros.dto.TokenDto;
+import com.grupo5.gestionlibros.dto.*;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @org.springframework.cloud.openfeign.FeignClient(name = "api-gateway", url = "http://localhost:8080")
 public interface FeignClient {
@@ -17,6 +17,18 @@ public interface FeignClient {
 
     @PostMapping("/auth/register")
     public TokenDto register(@RequestBody AuthUserDto dto);
+
+    @GetMapping("/users/")
+    public List<UserDto> getUsers(@RequestHeader("Authorization") String bearerToken);
+
+    @PostMapping("/users/")
+    public UserDto createUser(@RequestHeader("Authorization") String bearerToken, @RequestBody AuthUserDto dto);
+
+    @PutMapping("/users/{id}")
+    public UserDto updateUser(@RequestHeader("Authorization") String bearerToken, @PathVariable int id, @RequestBody AuthUserDto dto);
+
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<Void> deleteUser(@RequestHeader("Authorization") String bearerToken, @PathVariable int id);
 
     @GetMapping("/notificacion/notificar-registro/{correo}&{username}")
     public void notificarRegistro(@PathVariable("correo") String correo, @PathVariable("username") String userName);
