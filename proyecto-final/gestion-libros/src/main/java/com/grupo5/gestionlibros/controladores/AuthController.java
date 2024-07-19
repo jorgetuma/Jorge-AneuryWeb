@@ -34,7 +34,7 @@ public class AuthController {
                 cookie.setHttpOnly(true);
                 cookie.setPath("/");
                 response.addCookie(cookie);
-                return "redirect:/admin/dashboard";
+                return "redirect:/";
             }
         } catch (FeignException.FeignClientException e) {
             System.out.println(e.getMessage());
