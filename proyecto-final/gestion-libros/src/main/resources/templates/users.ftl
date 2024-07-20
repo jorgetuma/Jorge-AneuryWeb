@@ -11,10 +11,10 @@
                     <a class="nav-link" aria-current="page" href="/">Comprar</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Carrito de compras</a>
+                    <a class="nav-link" href="/carrito/${userId}">Carrito de compras</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/compras/listar/userid">Compras realizadas</a>
+                    <a class="nav-link" href="/compras/listar/${userId}">Compras realizadas</a>
                 </li>
                 <li class="nav-item" >
                     <a class="nav-link" href="/admin/dashboard">Administrar</a>

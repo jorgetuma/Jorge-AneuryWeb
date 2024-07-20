@@ -38,32 +38,56 @@ public class CatalogoController {
         List<Libro> libros = catalogoService.listar();
         model.addAttribute("libros",libros);
         model.addAttribute("userId",id);
-        return "/libros";
+        return "libros";
     }
 
     @GetMapping("catalogo/listar-titulo/{titulo}")
-    public String listarCatalagoBytitulo(Model model, @PathVariable("titulo") String titulo) {
+    public String listarCatalagoBytitulo(HttpServletRequest request, Model model, @PathVariable("titulo") String titulo) {
+        String token = getTokenFromCookies(request);
+        if (token == null) {
+            return "403";
+        }
+
         List<Libro> libros = catalogoService.listarByTitulo(titulo);
+        int id = jwtService.getId(token);
+
+        model.addAttribute("userId", id);
         model.addAttribute("libros",libros);
         return "/libros";
     }
 
     @GetMapping("catalogo/listar-autor/{autor}")
-    public String listarCatalagoByAutor(Model model, @PathVariable("autor") String autor) {
+    public String listarCatalagoByAutor(HttpServletRequest request, Model model, @PathVariable("autor") String autor) {
+        String token = getTokenFromCookies(request);
+        if (token == null) {
+            return "403";
+        }
+
         if (autor == null || autor.isEmpty()) {
             return "/libros";
         }
         List<Libro> libros = catalogoService.listarByAutor(autor);
+        int id = jwtService.getId(token);
+
+        model.addAttribute("userId", id);
         model.addAttribute("libros",libros);
         return "/libros";
     }
 
     @GetMapping("catalogo/listar-genero/{genero}")
-    public String listarCatalagoByGenero(Model model, @PathVariable("genero") String genero) {
+    public String listarCatalagoByGenero(HttpServletRequest request, Model model, @PathVariable("genero") String genero) {
+        String token = getTokenFromCookies(request);
+        if (token == null) {
+            return "403";
+        }
+
         if (genero == null || genero.isEmpty()) {
             return "/libros";
         }
         List<Libro> libros = catalogoService.listarByGenero(genero);
+        int id = jwtService.getId(token);
+
+        model.addAttribute("userId", id);
         model.addAttribute("libros",libros);
         return "/libros";
     }

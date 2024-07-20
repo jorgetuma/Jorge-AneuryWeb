@@ -93,9 +93,9 @@ public class CarritoController {
         }
         int userId = jwtService.getId(token);
         try {
-            CarritoCompra carritoCompra = feignClient.buscarByusuario("Bearer " + token, userId);
-            carritoCompraService.limpiarCarrito(carritoCompra.getIdCarrito());
-//            feignClient.procesarPedido("Bearer " + token, userId, params);
+//            CarritoCompra carritoCompra = feignClient.buscarByusuario("Bearer " + token, userId);
+//            carritoCompraService.limpiarCarrito(carritoCompra.getIdCarrito());
+            feignClient.procesarPedido("Bearer " + token, userId, params);
             return "redirect:/";
         } catch (Exception e) {
             System.out.println(e);

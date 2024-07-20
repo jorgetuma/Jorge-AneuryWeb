@@ -44,7 +44,11 @@ public class PedidoController {
     public List<Pedido> listarByUsuario(@PathVariable("id") int id) {return pedidoService.listarByUsuario(id);}
 
     @RequestMapping("/listar-fechactual")
-    public List<Pedido> listarByFecha() {return pedidoService.listarByFecha(new SimpleDateFormat("dd/MM/yyyy hh:mm:ss").format(new Date()));}
+    public List<Pedido> listarByFecha() {
+        String fecha = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+        System.out.println(fecha);
+        return pedidoService.listarByFecha(fecha);
+    }
 
     @PostMapping("/procesar/{iduser}")
     public void procesarPedido(@PathVariable("iduser") int iduser, @RequestBody Map<String,String> params) {

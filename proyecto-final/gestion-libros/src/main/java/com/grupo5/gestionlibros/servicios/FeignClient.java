@@ -48,4 +48,10 @@ public interface FeignClient {
 
     @PostMapping("/pedido/procesar/{iduser}")
     public void procesarPedido(@RequestHeader("Authorization") String bearerToken, @PathVariable("iduser") int iduser, @RequestBody Map<String,String> params);
+
+    @RequestMapping("/pedido/listar-usuario/{id}")
+    public List<Pedido> listarByUsuario(@RequestHeader("Authorization") String bearerToken, @PathVariable("id") int id);
+
+    @GetMapping("/pedido/listar-fechactual")
+    public List<Pedido> listarByFecha(@RequestHeader("Authorization") String bearerToken);
 }

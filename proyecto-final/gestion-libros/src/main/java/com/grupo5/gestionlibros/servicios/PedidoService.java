@@ -61,7 +61,6 @@ public class PedidoService {
         for (Pedido p:compras) {
             if(p.isPendiente() == false) {
                 pedidos.add(p);
-
             }
         }
         return pedidos;

@@ -4,6 +4,7 @@ import com.grupo5.gestionlibros.dto.AuthUserDto;
 import com.grupo5.gestionlibros.dto.Pedido;
 import com.grupo5.gestionlibros.dto.UserDto;
 import com.grupo5.gestionlibros.servicios.FeignClient;
+import com.grupo5.gestionlibros.servicios.JwtService;
 import com.grupo5.gestionlibros.servicios.PedidoService;
 import feign.FeignException;
 import jakarta.servlet.http.Cookie;
@@ -23,26 +24,40 @@ import java.util.List;
 public class AdminController {
     private final PedidoService pedidoService;
     private final FeignClient feignClient;
+    private final JwtService jwtService;
 
     @Autowired
-    public AdminController(PedidoService pedidoService, FeignClient feignClient) {
+    public AdminController(PedidoService pedidoService, FeignClient feignClient, JwtService jwtService) {
         this.pedidoService = pedidoService;
         this.feignClient = feignClient;
+        this.jwtService = jwtService;
     }
 
     @GetMapping("/dashboard")
-    public String dashboard(Model model) {
-        String fecha = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss").format(new Date());
-        List<Pedido> compras,realizadas, pendientes;
-        compras = pedidoService.listarFecha();
-        realizadas = pedidoService.listaRealizdas(compras);
-        pendientes = pedidoService.listaPedientes(compras);
+    public String dashboard(HttpServletRequest request, Model model) {
+        String token = getTokenFromCookies(request);
+        if (token == null) {
+            return "403";
+        }
+        try {
+            String fecha = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+            List<Pedido> compras,realizadas, pendientes;
 
-        model.addAttribute("compras",compras.size());
-        model.addAttribute("realizadas",realizadas.size());
-        model.addAttribute("pendientes",pendientes.size());
-        model.addAttribute("fecha",fecha);
-        return "/dashboard";
+            compras = feignClient.listarByFecha("Bearer " + token);
+            realizadas = pedidoService.listaRealizdas(compras);
+            pendientes = pedidoService.listaPedientes(compras);
+            int id = jwtService.getId(token);
+
+            model.addAttribute("userId", id);
+            model.addAttribute("compras",compras.size());
+            model.addAttribute("realizadas",realizadas.size());
+            model.addAttribute("pendientes",pendientes.size());
+            model.addAttribute("fecha",fecha);
+            return "/dashboard";
+        } catch (Exception e) {
+            return "403";
+        }
+
     }
 
     @GetMapping("/users")
@@ -53,6 +68,9 @@ public class AdminController {
         }
         try {
             List<UserDto> users = feignClient.getUsers("Bearer " + token);
+            int id = jwtService.getId(token);
+
+            model.addAttribute("userId", id);
             model.addAttribute("users", users);
             return "users"; // Return users view if token is valid
         } catch (FeignException.Unauthorized e) {
@@ -68,6 +86,9 @@ public class AdminController {
         }
         try {
             feignClient.createUser("Bearer " + token, user);
+            int id = jwtService.getId(token);
+
+            model.addAttribute("userId", id);
             return "redirect:/admin/users";
         } catch (FeignException.Unauthorized e) {
             return "403";

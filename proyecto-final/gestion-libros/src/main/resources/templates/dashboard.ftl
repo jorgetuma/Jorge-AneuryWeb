@@ -13,10 +13,10 @@
                     <a class="nav-link" aria-current="page" href="/">Comprar</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Carrito de compras</a>
+                    <a class="nav-link" href="/carrito/${userId}">Carrito de compras</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/compras/listar/userid">Compras realizadas</a>
+                    <a class="nav-link" href="/compras/listar/${userId}">Compras realizadas</a>
                 </li>
                 <li class="nav-item" >
                     <a class="nav-link active" href="/admin/dashboard">Administrar</a>
@@ -32,7 +32,7 @@
 
 <div class="container mt-5">
     <h1>Dashboard del día ${fecha}</h1>
-    <div class="row">
+    <div class="row align-items-center">
         <div class="col-md-6">
             <h2>Compras totales</h2>
             <canvas id="comprasChart"></canvas>
@@ -42,10 +42,6 @@
             <canvas id="pendientesChart"></canvas>
         </div>
     </div>
-</div>
-
-<div class="container mt-2">
-    <a href="#"><button type="button" class="btn btn-primary">Usuarios y perfiles</button></a>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>

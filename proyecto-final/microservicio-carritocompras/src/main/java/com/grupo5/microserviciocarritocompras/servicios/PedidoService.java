@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +32,15 @@ public class PedidoService {
     }
 
     public List<Pedido> listarByFecha(String fecha) {
-        return pedidoRepository.findAllByFecha(fecha);
+        List<Pedido> pedidos = pedidoRepository.findAll();
+        List<Pedido> pedidosOrdenados = new ArrayList<>();
+        for (Pedido pedido : pedidos) {
+            if (pedido.getFecha().contains(fecha)) {
+                pedidosOrdenados.add(pedido);
+            }
+        }
+        return pedidosOrdenados;
+//        return pedidoRepository.findAllByFecha(fecha);
     }
 
     public Pedido buscar(String id) {
@@ -40,7 +49,10 @@ public class PedidoService {
 
     public Pedido insertar(int user, CarritoCompra carritoCompra, Map<String,String> params) {
         Pedido pedido = new Pedido();
-        List<String> libros = carritoCompra.getLibros();
+
+        List<String> libros = new ArrayList<>(carritoCompra.getLibros());
+        pedido.setLibros(libros);
+
         pedido.setLibros(libros);
         pedido.setIdUser(user);
         pedido.setFactura(params.get("invoice"));

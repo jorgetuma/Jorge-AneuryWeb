@@ -13,13 +13,16 @@
                     <a class="nav-link" aria-current="page" href="/">Comprar</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="#">Carrito de compras</a>
+                    <a class="nav-link active" href="carrito/${user}">Carrito de compras</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/compras/listar/userid">Compras realizadas</a>
+                    <a class="nav-link" href="/compras/listar/${user}">Compras realizadas</a>
                 </li>
-                <li class="nav-iterm" >
+                <li class="nav-item" >
                     <a class="nav-link" href="/admin/dashboard">Administrar</a>
+                </li>
+                <li class="nav-item" >
+                    <a class="nav-link" href="/admin/users">Usuarios</a>
                 </li>
             </ul>
             <a class="btn btn-outline-success" href="/logout">cerrar sesión</a>
