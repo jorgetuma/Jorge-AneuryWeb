@@ -5,7 +5,6 @@
     <style>
         body{
             background-color: #edf1f5;
-            margin-top:20px;
         }
         .card {
             margin-bottom: 30px;
@@ -61,11 +60,7 @@
                     <a class="nav-link" href="/admin/dashboard">administrar</a>
                 </li>
             </ul>
-            <form class="d-flex" role="search">
-                <button class="btn btn-outline-success" type="submit" formaction="#"> login</button>
-                <button class="btn btn-outline-success" type="submit" formaction="#">registrate</button>
-                <button class="btn btn-outline-success" type="submit" formaction="#">cerrar sesion</button>
-            </form>
+            <a class="btn btn-outline-success" href="/logout">cerrar sesión</a>
         </div>
     </div>
 </nav>
@@ -79,14 +74,14 @@
                 <div class="col-lg-7 col-md-7 col-sm-6">
                     <h4 class="box-title mt-5">Autor</h4>
                     <p>${libro.autor}</p>
-                    <h4 class="box-title mt-5">Genero</h4>
+                    <h4 class="box-title mt-5">Género</h4>
                     <p>${libro.genero}</p>
                     <h4 class="box-title mt-5">Editorial</h4>
                     <p>${libro.editorial}</p>
                     <h2 class="mt-5">
-                        ${libro.precio} RD$
+                        RD$ ${libro.precio}
                     </h2>
-                    <button class="button btn-light"><a href="#">agregar al carrito</a></button>
+                    <a class="btn btn-success" href="#">agregar al carrito</a>
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <h3 class="box-title mt-5">Reseñas</h3>
@@ -98,13 +93,13 @@
                                     <td width="390">${r.idUsuario}</td>
                                     <td>${r.review}</td>
                                     <td>${r.calificacion} de 10</td>
-                                        <td><button class="button btn-light"><a href="/review/editar/${r.idReview}&${libro.id}">editar</a></button></td>
-                                        <td><button class="button btn-light"><a href="/review/eliminar/${r.idReview}&${libro.id}">eliminar</a></button></td>
+                                        <td><a class="btn btn-success" href="/review/editar/${r.idReview}&${libro.id}">editar</a></td>
+                                        <td><a class="btn btn-danger" href="/review/eliminar/${r.idReview}&${libro.id}">eliminar</a></td>
                                 </tr>
                             </#list>
                             </tbody>
                         </table>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reviewModal">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reviewModal">
                             Agregar reseña
                         </button>
                     </div>
@@ -114,28 +109,26 @@
     </div>
 </div>
 
-<div class="modal" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="reviewModalLabel">Agregar Reseña</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="reviewForm" method="post" action="/review/crear/username&${libro.id}">
-                    <div class="form-group">
+                <form id="reviewForm" method="post" action="/review/crear/${email}&${libro.id}">
+                    <div class="form-group mb-3">
                         <label for="review">Reseña:</label>
                         <textarea name="review" class="form-control" id="review" rows="3"></textarea>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         <label for="calificacion">Calificación (0-10):</label>
                         <input name="calificacion" type="number" class="form-control" id="calificacion" min="0" max="10">
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                         <button type="submit" class="btn btn-primary">Guardar</button>
                     </div>
                 </form>

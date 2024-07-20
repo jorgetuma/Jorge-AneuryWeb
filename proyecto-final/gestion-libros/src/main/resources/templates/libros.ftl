@@ -133,6 +133,7 @@
 
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 <script>
     // function getTokenFromCookies() {
@@ -177,7 +178,7 @@
                         addBookToCart(carritoId, bookId, quantity);
                     },
                     error: function() {
-                        alert("No se pudo agregar el libro al carrito, inténtalo de nuevo.");
+                        swal("No se pudo agregar el libro al carrito, inténtalo de nuevo.", "", "error");
                     }
                 });
             }
@@ -196,10 +197,12 @@
                 quantity: quantity
             },
             success: function() {
-                alert("Libro agregado al carrito con éxito!");
+                swal("Libro agregado al carrito con éxito!", "", "success");
+                // alert("Libro agregado al carrito con éxito!");
             },
             error: function() {
-                alert("No se pudo agregar el libro al carrito, inténtalo de nuevo.");
+                swal("No se pudo agregar el libro al carrito, inténtalo de nuevo.", "", "error");
+                // alert("No se pudo agregar el libro al carrito, inténtalo de nuevo.");
             }
         });
     }

@@ -3,7 +3,9 @@ package com.grupo5.gestionlibros.controladores;
 import com.grupo5.gestionlibros.dto.Libro;
 import com.grupo5.gestionlibros.dto.Review;
 import com.grupo5.gestionlibros.servicios.CatalogoService;
+import com.grupo5.gestionlibros.servicios.JwtService;
 import com.grupo5.gestionlibros.servicios.ReviewService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,17 +18,23 @@ import java.util.List;
 public class ReviewController {
     private final ReviewService reviewService;
     private final CatalogoService catalogoService;
+    private final JwtService jwtService;
 
     @Autowired
-    public ReviewController(ReviewService reviewService,CatalogoService catalogoService) {
+    public ReviewController(ReviewService reviewService, CatalogoService catalogoService, JwtService jwtService) {
         this.reviewService = reviewService;
         this.catalogoService = catalogoService;
+        this.jwtService = jwtService;
     }
 
     @GetMapping("/ver/{id}")
-    public String listar(Model model, @PathVariable("id") String id) {
+    public String listar(HttpServletRequest request, Model model, @PathVariable("id") String id) {
+        String token = jwtService.getTokenFromCookies(request);
+        String email = jwtService.getEmail(token);
         List<Review> reviews = reviewService.listar(id);
         Libro libro = catalogoService.buscar(id);
+
+        model.addAttribute("email", email);
         model.addAttribute("libro",libro);
         model.addAttribute("reviews",reviews);
         return  "/review";
