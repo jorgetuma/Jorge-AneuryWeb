@@ -47,6 +47,9 @@ public class ApiGatewayApplication {
 				.route("microservicio-carritocompras", r -> r.path("/carrito/**", "/pedido/**")
 						.filters(f -> f.filter(authFilter.apply(new AuthFilter.Config())))
 						.uri("lb://microservicio-carritocompras"))
+
+				.route("microservicio-resena", r -> r.path("/review/**")
+						.uri("lb://microservicio-resena"))
 				.build();
 	}
 
