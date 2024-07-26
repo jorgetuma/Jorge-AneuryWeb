@@ -13,11 +13,8 @@ RUN mkdir /app
 # Copiar el JAR generado desde la etapa de construcción a la imagen de producción
 COPY --from=build /home/gradle/src/build/libs/*.jar /app/app.jar
 
-# Crear un volumen para los logs
-VOLUME /bd-data
-
 # Exponer el puerto de la app
-EXPOSE 8888
+EXPOSE 8181
 
 # Establecer el punto de entrada para el contenedor
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]

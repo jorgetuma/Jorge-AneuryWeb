@@ -2,7 +2,7 @@
 FROM gradle AS build
 COPY --chown=gradle:gradle . /home/gradle/src
 WORKDIR /home/gradle/src
-RUN gradle bootjar --no-daemon
+RUN gradle bootjar
 
 # Etapa 2: Preparar el contenedor para la aplicación
 FROM eclipse-temurin:17.0.8.1_1-jre-alpine
@@ -13,8 +13,11 @@ RUN mkdir /app
 # Copiar el JAR generado desde la etapa de construcción a la imagen de producción
 COPY --from=build /home/gradle/src/build/libs/*.jar /app/app.jar
 
+# Crear un volumen para los logs
+VOLUME /bd-data-cc
+
 # Exponer el puerto de la app
-EXPOSE 8081
+EXPOSE 8082
 
 # Establecer el punto de entrada para el contenedor
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]

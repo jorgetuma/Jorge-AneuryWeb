@@ -1,6 +1,133 @@
 version: '3.7'
 
 services:
+  # Servicio de Configuración
+  config-server:
+    build:
+      context: ./servidor-configuracion
+      dockerfile: Dockerfile
+    container_name: config-server
+    restart: always
+    environment:
+      - SPRING_PROFILES_ACTIVE=native
+      - GIT_URI=https://github.com/AneuryEstevez/configuracion_pf
+    ports:
+      - "8888:8888"
+
+  # Servicio de Eureka
+  eureka-server:
+    build:
+      context: ./servidor-eureka
+      dockerfile: Dockerfile
+    container_name: eureka-server
+    restart: always
+    ports:
+      - "8761:8761"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://config-server:8888/eureka/
+    depends_on:
+      config-server:
+        condition: service_healthy
+
+  # API Gateway
+  api-gateway:
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    container_name: api-gateway
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8888
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    depends_on:
+      config-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+
+  # Servicio de Catálogo
+  catalog-service:
+    build:
+      context: ./microservicio-catalogo
+      dockerfile: Dockerfile
+    container_name: catalog-service
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8888
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    depends_on:
+      - config-server
+      - eureka-server
+
+  # Servicio de Carrito de Compras
+  cart-service:
+    build:
+      context: ./microservicio-carritocompras
+      dockerfile: Dockerfile
+    container_name: cart-service
+    restart: always
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8888
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    depends_on:
+      - config-server
+      - eureka-server
+
+  # Servicio de autenticación
+  user-service:
+    build:
+      context: ./microservicio-autenticacion
+      dockerfile: Dockerfile
+    container_name: user-service
+    restart: always
+    ports:
+      - "8085:8085"
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8888
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    depends_on:
+      - config-server
+      - eureka-server
+
+  # Servicio de Reseñas
+  review-service:
+    build:
+      context: ./microservico-resena
+      dockerfile: Dockerfile
+    container_name: review-service
+    restart: always
+    ports:
+      - "8083:8083"
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8888
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    depends_on:
+      - config-server
+      - eureka-server
+
+  # Servicio de Notificaciones y Reporte
+  notification-service:
+    build:
+      context: ./microservicio-notificacion-reporte
+      dockerfile: Dockerfile
+    container_name: notification-service
+    restart: always
+    ports:
+      - "8084:8084"
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8888
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    depends_on:
+      - config-server
+      - eureka-server
+
+  # Base de datos MongoDB para el Servicio de Catálogo
   mongodb:
     image: mongo
     container_name: mongodb
@@ -10,5 +137,29 @@ services:
     volumes:
       - mongodb_data:/data/db
 
+  # app (cliente)
+  app:
+    build:
+      context: ./gestion-libros
+      dockerfile: Dockerfile
+    container_name: app
+    restart: always
+    ports:
+      - "8181:8181"
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8888
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    depends_on:
+      - config-server
+      - eureka-server
+      - api-gateway
+      - catalog-service
+      - cart-service
+      - user-service
+      - notification-service
+      - review-service
+      - mongodb
+
 volumes:
   mongodb_data:
+

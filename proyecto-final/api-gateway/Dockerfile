@@ -14,7 +14,7 @@ RUN mkdir /app
 COPY --from=build /home/gradle/src/build/libs/*.jar /app/app.jar
 
 # Exponer el puerto de la app
-EXPOSE 8081
+EXPOSE 8080
 
 # Establecer el punto de entrada para el contenedor
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]
